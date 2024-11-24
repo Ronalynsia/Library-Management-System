@@ -94,4 +94,6 @@ if (isset($_POST['register'])) {
     </div>
 
 </body>
+
 </html>
+
