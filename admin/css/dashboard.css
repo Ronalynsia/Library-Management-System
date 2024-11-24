@@ -1,0 +1,246 @@
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #d1ab6591;
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-section img {
+    width: 80%;
+    max-width: 120px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.logo-section img:hover {
+    transform: scale(1.05);
+}
+
+.sidebar {
+    width: 250px;
+    padding: 15px 20px;
+    background-color: #333;
+    color: #fff;
+    transition: width 0.3s ease;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar:hover {
+    width: 300px;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu ul li {
+    margin: 8px 0;
+}
+
+.sidebar-menu ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+}
+
+.sidebar-menu ul li a:hover {
+    background-color: #444;
+    color: #f1f1f1;
+}
+
+.sidebar-menu ul li i {
+    margin-right: 12px;
+    font-size: 20px;
+}
+
+.dropdown-menu {
+    display: none;
+    padding-left: 20px;
+}
+
+.dropdown-toggle:after {
+    content: '\25BC';
+    padding-left: 10px;
+}
+
+.dropdown-menu li {
+    padding: 8px 0;
+}
+
+.sidebar-menu li.active .dropdown-menu {
+    display: block;
+}
+
+.main-content {
+    flex-grow: 1;
+    max-width: 100%;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+#dashboard {
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+#dashboard h2 {
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    color: #000000;
+    font-weight: bold;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.card {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    flex: 1 1 calc(50% - 20px);
+    min-width: 250px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.card .card-body a {
+    display: inline-block;
+    background-color: #c9a454c9;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 1em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.card .card-body a:hover {
+    background-color: #dfc980;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card .card-body a:active {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card .card-body a:disabled {
+    background-color: #adb1b4;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.card-body p {
+    font-size: 50px;
+    color: #f7eded;
+    margin: 0 0 15px;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .card {
+        flex: 1 1 calc(45% - 20px);
+    }
+
+    #books-showcase {
+        text-align: center;
+        flex-basis: auto;
+    }
+
+    .books-gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .book {
+        width: 100%;
+    }
+}
+
+.card-1 {
+    background-color: #6d4c479f;
+}
+
+.card-2 {
+    background-color: #af9f99;
+}
+
+.card-3 {
+    background-color: #d3A376;
+}
+
+.card-4 {
+    background-color: #b8bb95;
+}
+
+#books-showcase {
+    margin-top: 10px;
+    padding-left: 30px;
+    flex-basis: 100%;
+}
+
+#books-showcase h3 {
+    font-size: 1.6em;
+    margin-bottom: 5px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.book img {
+    width: 100%;
+    height: 650px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#library-image {
+    width: 100%;
+    height: 200%;
+    object-fit: cover;
+    max-height: 550px;
+    margin-bottom: 20px;
+}
+
+.book p {
+    margin-bottom: 5px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.sidebar:hover {
+    width: 300px;
+}
+
+.main-content:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
