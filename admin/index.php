@@ -41,38 +41,57 @@ if (isset($_POST['register'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/css/index.css">
+    <link rel="stylesheet" href="css/index2.css">
     <title>Library System - Sign In / Register</title>
 </head>
 <body>
 
-<h2>Sign In</h2>
-<form action="" method="POST">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit" name="login">Sign In</button>
-</form>
+    <div class="frame">
+        <div class="header">
+            <div class="header-container">
+                <h1>Library System</h1>
+                <h2>Admin Sign In / Register</h2>
+            </div>
+        </div>
 
-<h2>Register New Admin</h2>
-<form action="" method="POST">
-    <input type="text" name="first_name" placeholder="First Name" required>
-    <input type="text" name="last_name" placeholder="Last Name" required>
-    <input type="text" name="new_username" placeholder="Username" required>
-    <input type="password" name="new_password" placeholder="Password" required>
-    <button type="submit" name="register">Register</button>
-</form>
+        <div class="content">
+            <div class="form-container">
+                <!-- Sign In Form -->
+                <div class="form-section">
+                    <h4>Sign In</h4>
+                    <form action="" method="POST">
+                        <input type="text" name="username" placeholder="Username" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <button type="submit" name="login">Sign In</button>
+                    </form>
+                </div>
 
+                <!-- Register New Admin Form -->
+                <div class="form-section">
+                    <h4>Register New Admin</h4>
+                    <form action="" method="POST">
+                        <input type="text" name="first_name" placeholder="First Name" required>
+                        <input type="text" name="last_name" placeholder="Last Name" required>
+                        <input type="text" name="new_username" placeholder="Username" required>
+                        <input type="password" name="new_password" placeholder="Password" required>
+                        <button type="submit" name="register">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-<?php
-if (isset($_SESSION['error'])) {
-    echo "<p style='color:red'>{$_SESSION['error']}</p>";
-    unset($_SESSION['error']);
-}
-if (isset($_SESSION['success'])) {
-    echo "<p style='color:green'>{$_SESSION['success']}</p>";
-    unset($_SESSION['success']);
-}
-?>
+        <?php
+        if (isset($_SESSION['error'])) {
+            echo "<p style='color:red'>{$_SESSION['error']}</p>";
+            unset($_SESSION['error']);
+        }
+        if (isset($_SESSION['success'])) {
+            echo "<p style='color:green'>{$_SESSION['success']}</p>";
+            unset($_SESSION['success']);
+        }
+        ?>
+
+    </div>
 
 </body>
 </html>
