@@ -1,4 +1,3 @@
-/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +13,7 @@ body {
     background-color: #f8f8f8;
 }
 
-/* Frame Styling */
+
 .frame {
     width: 100%;
     max-width: 1200px;
@@ -24,11 +23,11 @@ body {
     position: relative;
 }
 
-/* Header Styling */
+
 .header {
-    background-color: #62442A; /* Brown Background */
+    background-color: #62442A; 
     padding: 40px 20px;
-    text-align: center; /* Centers the text */
+    text-align: center; 
     color: #fff;
     position: relative;
 }
@@ -53,7 +52,6 @@ body {
     gap: 10px;
 }
 
-/* Transparent Background for Content */
 .content {
     background: url('css.images/index.png') no-repeat center center/cover;
     padding: 20px;
@@ -67,21 +65,20 @@ body {
     color: #000;
     font-size: 1.5rem;
     margin-bottom: 20px;
-    margin-top: 30px; /* Add top margin for spacing */
+    margin-top: 30px; 
 }
 
-/* Form Container */
 .form-container {
-    background-color: rgba(98, 68, 42, 0.4); /* Lighter semi-transparent brown */
+    background-color: rgba(98, 68, 42, 0.4); 
     border-radius: 10px;
     padding: 30px;
     width: 100%;
-    max-width: 350px; /* Reduced width of the form container */
+    max-width: 350px; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     color: #fff;
 }
 
-/* Form Sections */
+
 .form-section h4 {
     text-align: center;
     font-size: 1.2rem;
@@ -91,7 +88,7 @@ body {
 
 .form-section input {
     width: 100%;
-    max-width: 280px; /* Reduced width of text boxes */
+    max-width: 280px; 
     padding: 10px;
     margin-bottom: 15px;
     border: none;
@@ -101,21 +98,21 @@ body {
     background-color: #f5eede;
 }
 
-/* Adjusted margin for Register New Admin section */
+
 .form-section:nth-child(2) h4 {
-    margin-top: 20px; /* Added top margin to push it down a little */
+    margin-top: 20px; 
 }
 
-/* Sign In and Register Button Styling */
+
 .form-section button {
     width: 100%;
-    max-width: 280px; /* Reduced button width */
-    padding: 12px; /* Increased padding for larger button */
-    min-height: 50px; /* Set minimum height for buttons */
+    max-width: 280px; 
+    padding: 12px; 
+    min-height: 50px; 
     background-color: #ffffff;
     border: none;
     border-radius: 5px;
-    color: black; /* Changed text color to black */
+    color: black; 
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -123,28 +120,28 @@ body {
 
 .form-section button:hover {
     background-color: #dcdcdc;
-    transform: scale(1.05); /* Adds a slight zoom effect */
+    transform: scale(1.05); 
 }
 
-/* About Us Button (Aligned to the Left) */
+
 .about-us-button {
-    position: absolute; /* Absolute positioning inside the footer */
-    bottom: 20px; /* Place it near the bottom */
-    left: 20px; /* Set left margin */
-    margin-right: 40px; /* Create space between button and right side */
+    position: absolute; 
+    bottom: 20px; 
+    left: 20px; 
+    margin-right: 40px; 
 }
 
 .about-us-button button {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
-    color: #ffffff; /* White text color */
-    background-color: #62442A; /* Button color changed to #62442A */
+    color: #ffffff; 
+    background-color: #62442A; 
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .about-us-button button:hover {
     background-color: #dcdcdc;
-    transform: scale(1.05); /* Adds a slight zoom effect */
+    transform: scale(1.05); 
 }
