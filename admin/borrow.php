@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset ($_POST['add_borrow'])) {
             text-align: center;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #e7d7c1;
         }
 
         .modal {
