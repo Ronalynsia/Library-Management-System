@@ -42,7 +42,7 @@ if (isset($_POST['register'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library System - Sign In / Register</title>
-    <link rel="stylesheet" href="admin/css/index2.css"> <!-- Link to external CSS -->
+    <link rel="stylesheet" href="src/css/index.css"> <!-- Link to external CSS -->
 </head>
 <body>
     <div class="frame">
