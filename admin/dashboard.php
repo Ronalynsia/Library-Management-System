@@ -36,18 +36,14 @@ $available_books = $total_books - $total_borrowed + $total_returned;
     <div class="wrapper">
         <!-- Sidebar -->
         <aside class="sidebar">
-
             <!-- Logo Section -->
     <div class="logo-section">
     <br>
-    <br>
-        <img src="images/logo.png" alt="Admin Logo">
+
+        <img src="images/logo.png" alt=" Logo">
     </div>
          <!-- profile Section -->
             <div class="profile-section">
-            <br>
-            <br>
-           
                 <h3>Admin Profile</h3>
                 <?php if (isset($admin_details['username'])): ?>
                     <p><strong>Username:</strong> <?php echo htmlspecialchars($admin_details['username']); ?></p>

@@ -1,0 +1,49 @@
+Vincent Medrano
+style.css
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f2e6; /* Light pastel background */
+    color: #5b3a29; /* Dark brown text */
+    margin: 0;
+    padding: 20px;
+}
+
+h3 {
+    color: #8f6b52; /* Medium brown for headings */
+}
+
+/* Button Styles */
+button {
+    background-color: #d2b48c; /* Light brown */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #bc8b4a; /* Darker brown on hover */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #c2b280; /* Light brown border */
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #d2c6b6; /* Light pastel brown for header */
+    color: #5b3a29; /* Dark brown text */
+}
