@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once '../Config/database.php';
-include_once 'admin-class.php';
+include_once 'Config/database.php';
+include_once 'admin/admin-class.php';
 
 $db = new Database();
 $admin = new Admin($db);
@@ -13,7 +13,7 @@ if (isset($_POST['login'])) {
 
     $login_result = $admin->login($username, $password);
     if ($login_result === 'success') {
-        header('Location: dashboard.php');
+        header('Location: admin/dashboard.php');
         exit();
     } else {
         $_SESSION['error'] = $login_result;
@@ -33,7 +33,7 @@ if (isset($_POST['register'])) {
     $register_result = $admin->register($new_username, $hashed_password, $first_name, $last_name);
     if ($register_result === 'Registration successful. You can now log in.') {
         $_SESSION['success'] = $register_result;
-        header('Location: index.php');
+        header('Location: admin/index.php');
         exit();
     } else {
         $_SESSION['error'] = $register_result;
@@ -58,7 +58,7 @@ if (isset($_POST['register'])) {
         /* Background image for the entire frame */
         .frame {
             height: 100%;
-            background: url('images/index.png') no-repeat center center fixed;
+            background: url('src/css/image/index.png') no-repeat center center fixed;
             background-size: cover;
             image-rendering: crisp-edges; /* Ensure high-quality rendering */
              -webkit-optimize-contrast;
