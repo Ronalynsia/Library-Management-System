@@ -1,0 +1,98 @@
+style.css
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f2e6; /* Light pastel background */
+    color: #5b3a29; /* Dark brown text */
+    margin: 0;
+    padding: 20px;
+}
+
+h3 {
+    color: #8f6b52; /* Medium brown for headings */
+}
+
+/* Button Styles */
+button {
+    background-color: #d2b48c; /* Light brown */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #bc8b4a; /* Darker brown on hover */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #c2b280; /* Light brown border */
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #d2c6b6; /* Light pastel brown for header */
+    color: #5b3a29; /* Dark brown text */
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff; /* White background for modals */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Input Styles */
+input[type="text"], select {
+    width: calc(100% - 22px); /* Full width minus padding */
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #c2b280; /* Light brown border */
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #8f6b52; /* Darker brown on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Link Styles */
+a {
+    color: #8f6b52; /* Medium brown for links */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
