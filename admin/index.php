@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 include_once '../Config/database.php';
 include_once 'admin-class.php';
@@ -61,7 +61,7 @@ if (isset($_POST['register'])) {
             background: url('images/index.png') no-repeat center center fixed;
             background-size: cover;
             image-rendering: crisp-edges; /* Ensure high-quality rendering */
-             -webkit-optimize-contrast;
+            -webkit-optimize-contrast;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -81,9 +81,8 @@ if (isset($_POST['register'])) {
         .header h1 {
             margin: 0;
         }
-        .form-section h4
-        {
-            margin: 5;
+        .form-section h4 {
+            margin: 5px;
             font-size: 20px;
         }
 
@@ -109,14 +108,14 @@ if (isset($_POST['register'])) {
         }
 
         .form-container button {
-            background-color: #007BFF;
+            background-color: #62442A; /* Updated button color */
             color: #fff;
             border: none;
             cursor: pointer;
         }
 
         .form-container button:hover {
-            background-color: #0056b3;
+            background-color: #50381F; /* Darker shade for hover effect */
         }
 
         /* Error and success message styling */
@@ -175,4 +174,4 @@ if (isset($_POST['register'])) {
         ?>
     </div>
 </body>
-</html>    
+</html>
