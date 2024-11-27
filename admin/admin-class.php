@@ -208,10 +208,9 @@ public function deleteCourse($id) {
 
 
 // Fetch all courses
-public function getCourses($start_from, $limit) {
-    $query = "SELECT * FROM courses LIMIT ?, ?";
+public function getCourses() {
+    $query = "SELECT * FROM courses";
     $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("ii", $start_from, $limit);
     $stmt->execute();
     return $stmt->get_result();
 }
