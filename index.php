@@ -6,7 +6,6 @@ include_once 'admin/admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
-// Sanitize inputs and handle login
 if (isset($_POST['login'])) {
     $username = htmlspecialchars(trim($_POST['username']));
     $password = htmlspecialchars(trim($_POST['password']));
@@ -20,14 +19,12 @@ if (isset($_POST['login'])) {
     }
 }
 
-// Sanitize inputs and handle registration
 if (isset($_POST['register'])) {
     $new_username = htmlspecialchars(trim($_POST['new_username']));
     $new_password = htmlspecialchars(trim($_POST['new_password']));
     $first_name = htmlspecialchars(trim($_POST['first_name']));
     $last_name = htmlspecialchars(trim($_POST['last_name']));
 
-    // Hash the password before storing it
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
     $register_result = $admin->register($new_username, $hashed_password, $first_name, $last_name);
@@ -55,12 +52,11 @@ if (isset($_POST['register'])) {
             font-family: Arial , sans-serif;
         }
         
-        /* Background image for the entire frame */
         .frame {
             height: 100%;
             background: url('src/css/image/index.png') no-repeat center center fixed;
             background-size: cover;
-            image-rendering: crisp-edges; /* Ensure high-quality rendering */
+            image-rendering: crisp-edges; 
             -webkit-optimize-contrast;
             display: flex;
             flex-direction: column;
@@ -68,7 +64,6 @@ if (isset($_POST['register'])) {
             justify-content: center;
         }
 
-        /* Header styling */
         .header {
             background-color: rgba(0, 0, 0, 0.6);
             color: #fff;
@@ -86,7 +81,6 @@ if (isset($_POST['register'])) {
             font-size: 20px;
         }
 
-        /* Form container styling */
         .content {
             background-color: rgba(255, 255, 255, 0.8);
             padding: 30px;
@@ -108,17 +102,16 @@ if (isset($_POST['register'])) {
         }
 
         .form-container button {
-            background-color: #62442A; /* Updated button color */
+            background-color: #62442A; 
             color: #fff;
             border: none;
             cursor: pointer;
         }
 
         .form-container button:hover {
-            background-color: #50381F; /* Darker shade for hover effect */
+            background-color: #50381F; 
         }
 
-        /* Error and success message styling */
         p {
             font-size: 30px;
             margin: 5px 0;
