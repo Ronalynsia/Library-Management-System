@@ -57,7 +57,7 @@ if (isset($_POST['register'])) {
             background: url('src/css/image/index.png') no-repeat center center fixed;
             background-size: cover;
             image-rendering: crisp-edges; 
-            -webkit-optimize-contrast;
+            
             display: flex;
             flex-direction: column;
             align-items: center;
