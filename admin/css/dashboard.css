@@ -1,7 +1,7 @@
 .wrapper {
     display: flex;
     min-height: 100vh;
-    background-color: #d1ab6591;
+    background-color: rgba(180, 127, 66, 0.651);
 }
 
 .logo-section {
@@ -55,7 +55,7 @@
 }
 
 .sidebar-menu ul li a:hover {
-    background-color: #444;
+    background-color: #b485474b;
     color: #f1f1f1;
 }
 
@@ -99,7 +99,7 @@
 #dashboard h2 {
     margin-bottom: 10px;
     font-size: 1.8em;
-    color: #000000;
+    color: #58290e;
     font-weight: bold;
 }
 
@@ -138,7 +138,7 @@
     padding: 10px 20px;
     border-radius: 50px;
     font-size: 1em;
-    text-decoration: none;
+    text-decoration:#58290e;
     transition: all 0.3s ease;
     margin-top: 15px;
     font-weight: bold;
@@ -147,7 +147,7 @@
 .card .card-body a:hover {
     background-color: #dfc980;
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 15px rgba(133, 95, 14, 0.2);
 }
 
 .card .card-body a:active {
@@ -161,8 +161,8 @@
 }
 
 .card-body p {
-    font-size: 50px;
-    color: #f7eded;
+    font-size: 70px;
+    color: #58290e;
     margin: 0 0 15px;
     font-weight: bold;
 }
@@ -188,19 +188,19 @@
 }
 
 .card-1 {
-    background-color: #6d4c479f;
+    background-color: #72583631;
 }
 
 .card-2 {
-    background-color: #af9f99;
+    background-color: #bfd5e069;
 }
 
 .card-3 {
-    background-color: #d3A376;
+    background-color: #c1acc975;
 }
 
 .card-4 {
-    background-color: #b8bb95;
+    background-color: #bfc49080;
 }
 
 #books-showcase {
@@ -212,7 +212,7 @@
 #books-showcase h3 {
     font-size: 1.6em;
     margin-bottom: 5px;
-    color: #000000;
+    color: #58290e;
     font-weight: bold;
 }
 

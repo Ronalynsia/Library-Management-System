@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
            border: 1px solid #ddd;
            padding: 12px 10px;
          text-align: center;
-           font-size: 13px;
+           font-size: 15px;
         }
 
         th {
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
@@ -312,7 +312,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         }
     }
 </script>
-
+<br>
+    <br>
+    <br>
+    <br>
+    <br>
 <a href="dashboard.php" class="button">Dashboard</a>
 
 </body>

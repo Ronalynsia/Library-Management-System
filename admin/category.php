@@ -86,7 +86,7 @@ th, td {
     border: 1px solid #ddd;
     padding: 8px 10px; /* Reduced padding for a smaller table */
     text-align: center;
-    font-size: 13px; /* Smaller font size */
+    font-size: 15px; /* Smaller font size */
 }
 th{
     background-color: #805c41;
@@ -109,7 +109,7 @@ button, a.button {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 15px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 button:hover, a.button:hover {
@@ -217,6 +217,11 @@ button:active, a.button:active {
     </table>
 
     <br>
-    <a href="dashboard.php">Back to Dashboard</a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="dashboard.php" class="button">Dashboard</a>
+
 </body>
 </html>

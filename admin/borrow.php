@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
             border: 1px solid #ddd;
             padding: 8px 10px; 
             text-align: center;
-            font-size: 13px; 
+            font-size: 15px; 
         }
 
         th {
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            font-size: 12px; 
+            font-size: 15px; 
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
@@ -227,6 +227,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
     <form id="delete-form" method="POST" style="display: none;">
         <input type="hidden" name="delete_transaction" value="1">
     </form>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <a href="dashboard.php" class="button">Dashboard</a>
 </body>

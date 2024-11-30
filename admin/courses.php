@@ -87,7 +87,7 @@ th, td {
     border: 1px solid #ddd;
     padding: 8px 10px;
     text-align: center;
-    font-size: 13px; 
+    font-size: 15px; 
 }
 
 th {
@@ -115,7 +115,7 @@ button, a.button {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    font-size: 12px; 
+    font-size: 15px; 
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -235,6 +235,11 @@ button:active, a.button:active {
             }
         }
     </script>
+     <br>
+    <br>
+    <br>
+    <br>
+    <br>
  <a href="dashboard.php" class="button">Dashboard</a>
 
 </body>

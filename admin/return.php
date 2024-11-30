@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
             border: 1px solid #ddd;
             padding: 8px 10px;
             text-align: center;
-            font-size: 13px;
+            font-size: 15px;
         }
         th {
             background-color: #805c41;
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 15px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
         button:hover, a.button:hover {
@@ -216,6 +216,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
         <input type="hidden" name="delete_transaction" value="1">
     </form>
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
     <a href="dashboard.php" class="button">Dashboard</a>
 </body>
 </html>
