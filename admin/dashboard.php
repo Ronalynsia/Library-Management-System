@@ -32,13 +32,11 @@ $available_books = $total_books - $total_borrowed + $total_returned;
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-
     <div class="wrapper">
         <!-- Sidebar -->
         <aside class="sidebar">
             <!-- Logo Section -->
     <div class="logo-section">
-    <br>
 
         <img src="images/logo.png" alt=" Logo">
     </div>

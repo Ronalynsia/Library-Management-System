@@ -83,39 +83,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         }
 
         table {
-    width: 90%;
-    border-collapse: collapse;
-    margin-top: 5px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-left: auto;
-    margin-right: auto;
-   
-}
+           width: 90%;
+           border-collapse: collapse;
+            margin-top: 5px;
+            background: #fff;
+           border-radius: 8px;
+           overflow: hidden;
+           margin-left: auto;
+          margin-right: auto;
+     
+        }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px 10px;
-    text-align: center;
-    font-size: 13px;
-}
+        th, td {
+           border: 1px solid #ddd;
+           padding: 12px 10px;
+         text-align: center;
+           font-size: 13px;
+        }
 
-th {
-    background-color: #805c41;
-    padding: 8px 12px;
-    color: #fff;
-}
+        th {
+         background-color: #805c41;
+         padding: 8px 12px;
+         color: #fff;
+         }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-    
-}
-
-tr:hover {
-    background-color: #886a527e;
- 
-}
+        tr:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+         background-color: #886a527e;
+        }
         button, a.button {
             display: inline-block;
             background-color: #805c41;
