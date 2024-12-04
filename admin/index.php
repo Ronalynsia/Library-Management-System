@@ -5,7 +5,7 @@ include_once 'admin-class.php';
 
 $db = new Database();
 $admin = new Admin($db);
-
+// Handle Login
 if (isset($_POST['login'])) {
     $username = htmlspecialchars(trim($_POST['username']));
     $password = htmlspecialchars(trim($_POST['password']));
@@ -19,12 +19,14 @@ if (isset($_POST['login'])) {
     }
 }
 
+// Handle Registration
 if (isset($_POST['register'])) {
     $new_username = htmlspecialchars(trim($_POST['new_username']));
     $new_password = htmlspecialchars(trim($_POST['new_password']));
     $first_name = htmlspecialchars(trim($_POST['first_name']));
     $last_name = htmlspecialchars(trim($_POST['last_name']));
 
+    // Hash the password only once
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
     $register_result = $admin->register($new_username, $hashed_password, $first_name, $last_name);
@@ -54,7 +56,7 @@ if (isset($_POST['register'])) {
         
         .frame {
             height: 100%;
-            background: url('images/index.png') no-repeat center center fixed;
+            background: url('images/HD-Library-Wallpaper.jpg') no-repeat center center fixed;
             background-size: cover;
             image-rendering: crisp-edges; 
             -webkit-optimize-contrast;
@@ -142,15 +144,16 @@ if (isset($_POST['register'])) {
                     </form>
                 </div>
                 <div class="form-section">
-                    <h4>Register New Admin</h4>
-                    <form action="" method="POST">
-                        <input type="text" name="first_name" placeholder="First Name" required>
-                        <input type="text" name="last_name" placeholder="Last Name" required>
-                        <input type="text" name="new_username" placeholder="Username" required>
-                        <input type="password" name="new_password" placeholder="Password" required>
-                        <button type="submit" name="register">Register</button>
-                    </form>
-                </div>
+    <h4>Register New Admin</h4>
+    <form action="" method="POST">
+        <input type="text" name="first_name" placeholder="First Name" required>
+        <input type="text" name="last_name" placeholder="Last Name" required>
+        <input type="text" name="new_username" placeholder="Username" required>
+        <input type="password" name="new_password" placeholder="Password" required>
+        <button type="submit" name="register">Register</button>
+    </form>
+</div>
+
             </div>
         </div>
         

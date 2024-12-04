@@ -54,7 +54,7 @@ if (isset($_POST['register'])) {
         
         .frame {
             height: 100%;
-            background: url('src/css/image/index.png') no-repeat center center fixed;
+            background: url('src/css/image/HD-Library-Wallpaper.jpg') no-repeat center center fixed;
             background-size: cover;
             image-rendering: crisp-edges; 
             

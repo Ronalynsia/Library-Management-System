@@ -10,8 +10,8 @@ class Admin {
         $this->conn = $db->getConnection();
     }
 
-    // Admin Login Method
-    public function login($username, $password) {
+     // Admin Login Method
+     public function login($username, $password) {
         $stmt = $this->conn->prepare("SELECT * FROM admin WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -38,12 +38,11 @@ class Admin {
         $stmt->execute();
         $query = $stmt->get_result();
 
-        if ($query->num_rows > 0) {  // Fixed: Change to '0' instead of '1'
+        if ($query->num_rows > 0) { // Check if username already exists
             return 'Username already exists';
         } else {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $this->conn->prepare("INSERT INTO admin (username, password, first_name, last_name) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $username, $hashed_password, $first_name, $last_name);
+            $stmt->bind_param("ssss", $username, $password, $first_name, $last_name);
             if ($stmt->execute()) {
                 return 'Registration successful. You can now log in.';
             } else {
@@ -60,9 +59,7 @@ class Admin {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-
-
-    
+      
 // Add a new book
 public function addBook($isbn, $title, $author, $published_date, $quantity, $category_id, $status = "Available") {
     $query = "INSERT INTO books (isbn, title, author, published_date, quantity, category_id, status) 

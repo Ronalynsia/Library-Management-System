@@ -132,7 +132,7 @@ $available_books = $total_books - $total_borrowed + $total_returned;
                 <div class="books-img">
                     <!-- Example of a book image -->
                     <div class="book">
-                        <img src="images/book-stacks.jpg" alt="Book">
+                        <img src="images/dashboard.jpg" alt="Book">
                     </div>
                 </div>
             </section>

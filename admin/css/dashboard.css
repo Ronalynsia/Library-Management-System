@@ -22,9 +22,10 @@
 }
 
 .sidebar {
+    font-size: 16px;
     width: 250px;
-    padding: 15px 20px;
-    background-color: #333;
+    padding: 20px 15px;
+    background-color: #2e1d0685;
     color: #fff;
     transition: width 0.3s ease;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -55,7 +56,7 @@
 }
 
 .sidebar-menu ul li a:hover {
-    background-color: #b485474b;
+    background-color: #f1951c4b;
     color: #f1f1f1;
 }
 
@@ -225,9 +226,9 @@
 
 #library-image {
     width: 100%;
-    height: 200%;
+    height: 90%;
     object-fit: cover;
-    max-height: 550px;
+    max-height: 100px;
     margin-bottom: 20px;
 }
 
