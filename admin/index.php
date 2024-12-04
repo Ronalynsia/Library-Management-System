@@ -94,28 +94,36 @@ if (isset($_POST['register'])) {
             max-width: 400px;
         }
 
-        .form-container input, .form-container button {
+        .form-container input{
             width: 100%;
-            padding: 5px;
-            margin: 5px 0;
+            padding: 10px 5px;
+            margin: 2px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 15px;
         }
 
         .form-container button {
-            background-color: #62442A; 
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
+          width: 100%;
+          padding: 10px 20px;
+          margin: 10px 0;
+         border: none;
+          border-radius: 5px;
+         font-size: 16px;
+         font-weight: bold;
+         background-color: #62442A;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.3s ease, transform 0.2s ease;
+           }
 
         .form-container button:hover {
             background-color: #50381F; 
+            transform: scale(1.02);
         }
 
         p {
-            font-size: 30px;
+            font-size: 20px;
             margin: 5px 0;
         }
 
