@@ -1,4 +1,4 @@
-<?php
+<?php  
 session_start();
 require_once '../Config/database.php';
 require_once 'admin-class.php';
@@ -68,10 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
     <link rel="stylesheet" href="css/total-books.css">
     <title>Books List - Library System</title>
     <style>
-         body {
+        body {
             font-family: 'Times New Roman', sans-serif;
             background-color: #94672b4b;
-            ;
             margin: 0;
             padding: 40px;
             color: #333;
@@ -83,35 +82,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
         }
 
         table {
-         width: 90%; 
-          border-collapse: collapse;
-          margin-top: 5px;
-          background: #fff;
-         border-radius: 8px;
-          overflow: hidden;
-         margin-left: auto;
-         margin-right: auto;
-         }
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 5px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-         th, td {
-              border: 1px solid #ddd;
-              padding: 8px 12px; 
-             text-align: center;
-             font-size: 15px; 
-              }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: 13px;
+        }
 
-            th {
-                background-color: #805c41;
-                color: #fff;
-            }
+        th {
+            background-color: #805c41;
+            color: #fff;
+        }
 
-            tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
 
-            tr:hover {
-                background-color: #886a527e;
-            }
+        tr:hover {
+            background-color: #886a527e;
+        }
+
         button, a.button {
             display: inline-block;
             background-color: #805c41;
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 14px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
@@ -136,32 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
             transform: scale(0.98);
         }
 
-        .edit-form, .add-form { 
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 30px;
-            border-radius: 8px;
-            background-color: #fff;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            
-        }
-       
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #fff;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
         input, select {
             width: 100%;
             padding: 5px;
@@ -176,8 +150,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
             outline: none;
             box-shadow: 0 0 5px rgba(166, 123, 91, 0.5);
         }
-        form button {
-            margin-top: 10px;
+
+        .edit-form, .add-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fff;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 500;
         }
     </style>
 </head>
@@ -188,11 +183,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
     <p style="color: red;"><?= $_SESSION['error']; unset($_SESSION['error']); ?></p>
 <?php endif; ?>
 
-      <h3>Add New</h3>
-        <button onclick="showAddForm()"> +Add New Book</button>
+<h3>Add New</h3>
+<button onclick="showAddForm()"> +Add New Book</button>
 
-    <h3>Books List</h3>
-      <table>
+<h3>Books List</h3>
+<table>
     <thead>
         <tr>
             <th>Category</th>
@@ -221,12 +216,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
                 </td>
             </tr>
         <?php endwhile; ?>
+
+        <!-- Add 10 empty rows with vertical lines visible -->
+        <?php for ($i = 0; $i < 10; $i++): ?>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        <?php endfor; ?>
     </tbody>
 </table>
 
 <div id="add-form" class="add-form">
     <form method="POST">
-    <h3>Add New Book</h3>
+        <h3>Add New Book</h3>
         <label>ISBN:</label><input type="text" name="isbn" required><br>
         <label>Title:</label><input type="text" name="title" required><br>
         <label>Author:</label><input type="text" name="author" required><br>
@@ -246,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
 
 <div id="edit-form" class="edit-form">
     <form method="POST">
-    <h3>Edit Book</h3>
+        <h3>Edit Book</h3>
         <input type="hidden" id="edit-id" name="edit_id">
         <label>ISBN:</label><input type="text" id="edit-isbn" name="edit_isbn" required><br>
         <label>Title:</label><input type="text" id="edit-title" name="edit_title" required><br>
@@ -317,11 +326,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_book'])) {
         }
     }
 </script>
- <br>
-    <br>
-    <br>
-    <br>
-    <br>
+
+<br><br><br><br><br>
 <a href="dashboard.php" class="button">Dashboard</a>
 
 </body>
