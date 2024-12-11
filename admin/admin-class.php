@@ -81,7 +81,16 @@ public function updateBook($id, $isbn, $title, $author, $published_date, $quanti
     $stmt->close();
     return $success;
 }
-
+// Fetch books with pagination
+public function getPaginatedBooks($limit, $offset) {
+    $query = "SELECT books.*, categories.category_name FROM books 
+              LEFT JOIN categories ON books.category_id = categories.id
+              LIMIT ? OFFSET ?";
+    $stmt = $this->db->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
 // Delete a book
 public function deleteBook($id) {
     $query = "DELETE FROM books WHERE id = ?";
