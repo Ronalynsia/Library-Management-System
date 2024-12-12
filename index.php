@@ -94,7 +94,7 @@ if (isset($_POST['register'])) {
 
         .form-container input, .form-container button {
             width: 100%;
-            padding: 5px;
+            padding: 10px 1px;
             margin: 5px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
