@@ -5,6 +5,14 @@ include_once 'admin-class.php';
 
 $db = new Database();
 $admin = new Admin($db);
+
+$limit = 5;
+$categories = $admin->getCategories();
+$totalPages = ceil($totalCategories / $limit);
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$current_page = max(1, min($current_page, $total_categories));
+$offset = ($page - 1) * $limit;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (isset($_POST['add_category'])) {
         $category_name = trim($_POST['category_name']);
