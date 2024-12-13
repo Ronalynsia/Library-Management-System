@@ -6,17 +6,27 @@ require_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
+// Handle Pagination
+$limit = 5; // Rows per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max($page, 1); // Ensure page is at least 1
+$offset = ($page - 1) * $limit;
+
+$totalCourses = $admin->getCourseCount();
+$totalPages = ceil($totalCourses / $limit);
+
+$courses_result = $admin->getCoursesWithLimit($offset, $limit);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
     if (isset($_POST['add_course'])) {
         $course_name = trim($_POST['course_name']);
         $description = trim($_POST['description']);
         if (!empty($course_name) && !empty($description)) {
-           
+
             $course_name = htmlspecialchars($course_name);
             $description = htmlspecialchars($description);
-            if ($admin->addCourse($course_name, $description)) {  
+            if ($admin->addCourse($course_name, $description)) {
                 $_SESSION['success'] = "Course added successfully!";
             } else {
                 $_SESSION['error'] = "Failed to add course.";
@@ -46,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-$courses_result = $admin->getCourses(); 
+
 ?>
 
 <!DOCTYPE html>
@@ -58,76 +68,101 @@ $courses_result = $admin->getCourses();
     <title>Course List - Library System</title>
 
 <style>
-     body {
+    body {
         font-family: 'Times New Roman', sans-serif;
-    background-color: #94672b4b;
-    margin: 0;
-    padding:0;
-    padding: 40px;
-    color: #333;
-}
+        background-color: #f4e3cf;
+        margin: 0;
+        padding: 0;
+        color: #5e4033;
+        padding: 40px;
+    }
 
-h3 {
-    margin-bottom: 5px;
-    color: #4a3f35;
-}
+    h3 {
+        margin-bottom: 5px;
+        color: #5e4033;
+    }
 
-table {
-    width: 90%; 
-    border-collapse: collapse;
-    margin-top: 5px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-left: auto;
-    margin-right: auto;
-}
+    table {
+        width: 90%;
+        border-collapse: collapse;
+        margin-top: 5px;
+        background: #f7e7d1;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px 10px;
-    text-align: center;
-    font-size: 15px; 
-}
+    th, td {
+        border: 1px solid #d1b894;
+        padding: 8px 10px;
+        text-align: center;
+        font-size: 15px;
+    }
 
-th {
-    background-color: #805c41;
-    color: #fff;
-}
+    th {
+        background-color: #b4846c;
+        color: #fff;
+    }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
 
-tr:hover {
-    background-color: #886a527e;
-}
+    tr:hover {
+        background-color: #ecd4c3;
+    }
 
 
-button, a.button {
-    display: inline-block;
-    background-color: #805c41;
-    color: #fff;
-    padding: 8px 12px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 15px; 
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
+    button, a.button {
+        display: inline-block;
+        background-color: #b4846c;
+        color: #fff;
+        padding: 8px 12px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
-button:hover, a.button:hover {
-    background-color: #65452f;
-    transform: scale(1.05);
-}
+    button:hover, a.button:hover {
+        background-color: #a06e59;
+        transform: scale(1.05);
+    }
 
-button:active, a.button:active {
-    transform: scale(0.98);
-}
-    </style>
+    button:active, a.button:active {
+        transform: scale(0.98);
+    }
+
+    .pagination {
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .pagination a {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 0 5px;
+        background-color: #b4846c;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .pagination a:hover {
+        background-color: #a06e59;
+    }
+
+    .pagination a.active {
+        background-color: #8b5947;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
 
@@ -141,7 +176,7 @@ button:active, a.button:active {
         unset($_SESSION['error']);
     }
     ?>
-    
+
     <h3>Add New Course</h3>
     <form action="courses.php" method="POST">
         <label for="course_name">Course Name:</label>
@@ -151,7 +186,7 @@ button:active, a.button:active {
         <button type="submit" name="add_course">Add Course</button>
     </form>
     <hr>
-   
+
     <h3>Existing Courses</h3>
     <table>
         <thead>
@@ -175,12 +210,21 @@ button:active, a.button:active {
         </tbody>
     </table>
 
-    
+    <div class="pagination">
+        <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+            <a href="?page=<?php echo $i; ?>" class="<?php echo $i == $page ? 'active' : ''; ?>">
+                <?php echo $i; ?>
+            </a>
+        <?php } ?>
+    </div>
+
+
+
     <script>
-        function editCourse(id, currentName, currentDescription) {
+        function editCourse(id, currentName, currentDescription){
             var newName = prompt("Edit course name:", currentName);
             var newDescription = prompt("Edit course description:", currentDescription);
-            if (newName && newDescription) {
+            if (newName && newDescription){
                 var form = document.createElement("form");
                 form.method = "POST";
                 form.action = "courses.php";
@@ -190,57 +234,16 @@ button:active, a.button:active {
                 inputId.name = "edit_id";
                 inputId.value = id;
                 form.appendChild(inputId);
-
+                
                 var inputName = document.createElement("input");
                 inputName.type = "hidden";
                 inputName.name = "edit_course_name";
                 inputName.value = newName;
                 form.appendChild(inputName);
-
-                var inputDescription = document.createElement("input");
-                inputDescription.type = "hidden";
-                inputDescription.name = "edit_course_description";
-                inputDescription.value = newDescription;
-                form.appendChild(inputDescription);
-
-                var inputSubmit = document.createElement("input");
-                inputSubmit.type = "hidden";
-                inputSubmit.name = "edit_course";
-                form.appendChild(inputSubmit);
-
-                document.body.appendChild(form);
-                form.submit();
             }
         }
-
-        function deleteCourse(id, name) {
-            if (confirm("Are you sure you want to delete the course: " + name + "?")) {
-                var form = document.createElement("form");
-                form.method = "POST";
-                form.action = "courses.php";
-
-                var inputId = document.createElement("input");
-                inputId.type = "hidden";
-                inputId.name = "delete_id";
-                inputId.value = id;
-                form.appendChild(inputId);
-
-                var inputSubmit = document.createElement("input");
-                inputSubmit.type = "hidden";
-                inputSubmit.name = "delete_course";
-                form.appendChild(inputSubmit);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-    </script>
-     <br>
-    <br>
-    <br>
-    <br>
-    <br>
- <a href="dashboard.php" class="button">Dashboard</a>
+</script>
+        <a href="dashboard.php" class="button">Dashboard</a>
 
 </body>
 </html>
