@@ -7,8 +7,9 @@ $db = new Database();
 $admin = new Admin($db);
 
 $limit = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $limit;
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$current_page = max(1, min($current_page, $total_pages)); // Ensure the current page is within bounds
+$offset = ($current_page - 1) * $limit;
 
 $students = $admin->getPaginatedStudents($limit, $offset);
 $total_students = $admin->getTotalStudentsCount();
