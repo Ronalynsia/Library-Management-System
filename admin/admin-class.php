@@ -178,6 +178,17 @@ public function updateStudent($id, $first_name, $last_name, $course_id) {
     return $stmt->execute();
 }
 
+public function getPaginatedStudents($limit, $offset) {
+    $query = "SELECT students.student_id, students.first_name, students.last_name, courses.course_name 
+              FROM students 
+              LEFT JOIN courses ON students.course_id = courses.id 
+              LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
 // Delete a student
 public function deleteStudent($id) {
     $query = "DELETE FROM students WHERE student_id = ?";
