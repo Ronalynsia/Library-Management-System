@@ -6,16 +6,17 @@ require_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
-// Handle Pagination
-$limit = 5; // Rows per page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$page = max($page, 1); // Ensure page is at least 1
-$offset = ($page - 1) * $limit;
+public function getPaginatedCourses($limit, $offset) {
+    $query = "SELECT courses.*, categories.category_name FROM courses
+              LEFT JOIN categories ON courses.category_id = categories.id
+              LIMIT ? OFFSET ?";
+    $stmt = $this->db->prepare($query);
+    $stmt ->bind_param("ii",$limit, $offset);
+    $stmt ->execute();
+    return $stmt->get_result();
 
-$totalCourses = $admin->getCourses();
-$totalPages = ceil($totalCourses / $limit);
+}
 
-$courses_result = $admin->getCoursesWithLimit($offset, $limit);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
