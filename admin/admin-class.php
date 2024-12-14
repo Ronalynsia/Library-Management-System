@@ -186,6 +186,36 @@ public function deleteStudent($id) {
     return $stmt->execute();
 }
 
+public function getPaginatedStudents($limit, $offset) {
+    $query = "SELECT students.student_id, students.first_name, students.last_name, courses.course_name 
+              FROM students 
+              LEFT JOIN courses ON students.course_id = courses.id 
+              LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+// Get total students count
+public function getTotalStudentsCount() {
+    $stmt = $this->conn->prepare("SELECT COUNT(*) AS total_students FROM students");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['total_students'];
+}
+
+// Fetch students with pagination
+public function getStudentsWithPagination($limit, $offset) {
+    $students = $this->getPaginatedStudents($limit, $offset);
+    $totalCount = $this->getTotalStudentsCount();
+
+    return [
+        'students' => $students,
+        'total_count' => $totalCount,
+    ];
+}
 
    
 
