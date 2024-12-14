@@ -7,13 +7,14 @@ $db = new Database();
 $admin = new Admin($db);
 
 $limit = 10;
+$total_pages = ceil($total_students / $limit);
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$current_page = max(1, min($current_page, $total_pages)); // Ensure the current page is within bounds
+$current_page = max(1, min($current_page, $total_pages));
 $offset = ($current_page - 1) * $limit;
 
 $students = $admin->getPaginatedStudents($limit, $offset);
 $total_students = $admin->getTotalStudentsCount();
-$total_pages = ceil($total_students / $limit);
+
 
 $courses = $admin->getAllCourses();
 
