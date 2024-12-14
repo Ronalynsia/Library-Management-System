@@ -112,12 +112,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
 </table>
 
 <div class="pagination">
+    <!-- Previous Button -->
+    <a href="?page=<?php echo max(1, $page - 1); ?>" 
+       class="<?php echo $page === 1 ? 'disabled' : ''; ?>">Previous</a>
+
+    <!-- Page Numbers -->
     <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="?page=<?php echo $i; ?>" <?php if ($i === $page) echo 'class="active"'; ?>>
+        <a href="?page=<?php echo $i; ?>" 
+           class="<?php echo $i === $page ? 'active' : ''; ?>">
             <?php echo $i; ?>
         </a>
     <?php endfor; ?>
+
+    <!-- Next Button -->
+    <a href="?page=<?php echo min($total_pages, $page + 1); ?>" 
+       class="<?php echo $page === $total_pages ? 'disabled' : ''; ?>">Next</a>
 </div>
+
 
 <script>
     function showAddForm() {

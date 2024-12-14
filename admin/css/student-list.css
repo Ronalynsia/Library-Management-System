@@ -99,3 +99,39 @@ input:focus, select:focus {
 form button {
     margin-top: 10px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border: 1px solid #795548;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #795548; 
+    font-weight: bold;
+    background-color: #f4f0e6; 
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a.active {
+    background-color: #795548; 
+    color: white;
+    pointer-events: none;
+}
+
+.pagination a.disabled {
+    pointer-events: none; 
+    opacity: 0.6; 
+}
+
+.pagination a:hover:not(.active):not(.disabled) {
+    background-color: #a67c52; 
+    color: white; 
+}
