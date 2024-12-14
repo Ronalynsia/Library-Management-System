@@ -3,20 +3,25 @@ session_start();
 require_once '../Config/database.php';
 require_once 'admin-class.php';
 
+
 $db = new Database();
 $admin = new Admin($db);
 
-$limit = 10;
-$total_pages = ceil($total_students / $limit);
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$current_page = max(1, min($current_page, $total_pages));
-$offset = ($current_page - 1) * $limit;
 
-$students = $admin->getPaginatedStudents($limit, $offset);
-$total_students = $admin->getTotalStudentsCount();
-
-
+$students = $admin->getAllStudents();
 $courses = $admin->getAllCourses();
+
+
+// Pagination setup
+$limit = 5; // Number of students per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// Fetch paginated students and total student count
+$students = $admin->getPaginatedStudents($limit, $offset);
+$totalStudents = $admin->getStudentCount();
+$totalPages = ceil($totalStudents / $limit);
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_student'])) {
     $first_name = $_POST['first_name'];
@@ -34,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_student'])) {
     exit();
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_student'])) {
     $id = $_POST['edit_id'];
     $first_name = $_POST['edit_first_name'];
@@ -50,8 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_student'])) {
     exit();
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
-    $id = $_POST['delete_student'];
+    $id = $_POST['delete_student']; 
 
     if ($admin->deleteStudent($id)) {
         $_SESSION['success'] = "Student deleted successfully!";
@@ -68,24 +75,128 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student List - Library System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/student-list.css">
+    <title>Student List</title>
+    <style>
+        
+         body {
+            font-family: 'Times New Roman', sans-serif;
+            background-color: #c6dce769;
+            margin: 0;
+            padding: 40px;
+            color: #333;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            color: #4a3f35;
+        }
+
+        table {
+           width: 90%;
+           border-collapse: collapse;
+            margin-top: 5px;
+            background: #fff;
+           border-radius: 8px;
+           overflow: hidden;
+           margin-left: auto;
+          margin-right: auto;
+     
+        }
+
+        th, td {
+           border: 1px solid #ddd;
+           padding: 12px 10px;
+         text-align: center;
+           font-size: 15px;
+        }
+
+        th {
+         background-color: #805c41;
+         padding: 8px 12px;
+         color: #fff;
+         }
+
+        tr:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+         background-color: #886a527e;
+        }
+        button, a.button {
+            display: inline-block;
+            background-color: #805c41;
+            color: #fff;
+            padding: 10px 15px;
+            margin: 20px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover, a.button:hover {
+            background-color: #65452f;
+            transform: scale(1.05);
+        }
+
+        button:active, a.button:active {
+            transform: scale(0.98);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        
+        input, select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            border-color: #805c41;
+            outline: none;
+            box-shadow: 0 0 5px rgba(166, 123, 91, 0.5);
+        }
+
+        form button {
+            margin-top: 10px;
+        }
+            
+
+    </style>
 </head>
 <body>
-
 <h3>Student List</h3>
 
 <?php if (isset($_SESSION['success'])): ?>
-    <p style="color: green;">
-        <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-    </p>
+    <p style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
 <?php elseif (isset($_SESSION['error'])): ?>
-    <p style="color: red;">
-        <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-    </p>
+    <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
 <?php endif; ?>
 
+
 <button onclick="showAddForm()">+ New Student</button>
+
 
 <table>
     <thead>
@@ -112,11 +223,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         <?php endwhile; ?>
     </tbody>
 </table>
-<nav>
-    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="?page=<?php echo $i; ?>" <?php if ($i === $current_page) echo 'style="font-weight:bold;"'; ?>><?php echo $i; ?></a>
+<!-- Pagination Controls -->
+<div style="text-align: center; margin-top: 20px;">
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <a href="?page=<?php echo $i; ?>" style="margin: 0 5px; text-decoration: none; 
+           <?php echo ($i === $page) ? 'font-weight: bold; color: #805c41;' : 'color: #333;' ?>">
+            <?php echo $i; ?>
+        </a>
     <?php endfor; ?>
-</nav>
+</div>
+
+
 
 <div id="add-student-modal" class="modal">
     <form method="POST">
@@ -164,24 +281,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
 
 <div class="overlay" onclick="hideAddForm()"></div>
 
-
-
 <script>
+   
     function showAddForm() {
         document.getElementById('add-student-modal').style.display = 'block';
         document.querySelector('.overlay').style.display = 'block';
     }
 
+    
     function hideAddForm() {
         document.getElementById('add-student-modal').style.display = 'none';
         document.querySelector('.overlay').style.display = 'none';
     }
 
+  
     function showEditForm(id) {
         document.getElementById('edit-id').value = id;
         document.getElementById('edit-student-modal').style.display = 'block';
         document.querySelector('.overlay').style.display = 'block';
 
+  
         fetch('student-list.php?id=' + id)
             .then(response => response.json())
             .then(data => {
@@ -191,12 +310,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
             });
     }
 
+
     function hideEditForm() {
         document.getElementById('edit-student-modal').style.display = 'none';
         document.querySelector('.overlay').style.display = 'none';
     }
 
+   
     function confirmDelete(id) {
+        console.log("Delete student ID:", id); 
         if (confirm('Are you sure you want to delete this student?')) {
             let form = document.createElement('form');
             form.method = 'POST';
@@ -211,8 +333,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         }
     }
 </script>
-
 <a href="dashboard.php" class="button">Dashboard</a>
-
 </body>
 </html>
