@@ -12,7 +12,7 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $page = max($page, 1); // Ensure page is at least 1
 $offset = ($page - 1) * $limit;
 
-$totalCourses = $admin->getCourseCount();
+$totalCourses = $admin->getCourses();
 $totalPages = ceil($totalCourses / $limit);
 
 $courses_result = $admin->getCoursesWithLimit($offset, $limit);
