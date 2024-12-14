@@ -100,38 +100,23 @@ form button {
     margin-top: 10px;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    margin: 20px 0;
+nav {
+    text-align: center;
+    margin-top: 20px;
 }
-
-.pagination a {
-    display: inline-block;
-    padding: 8px 15px;
+nav a {
     margin: 0 5px;
-    border: 1px solid #795548;
-    border-radius: 5px;
+    padding: 5px 10px;
     text-decoration: none;
-    color: #795548; 
-    font-weight: bold;
-    background-color: #f4f0e6; 
-    transition: background-color 0.3s, color 0.3s;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
 }
-
-.pagination a.active {
-    background-color: #795548; 
-    color: white;
-    pointer-events: none;
+nav a:hover {
+    background-color: #805c41;
+    color: #fff;
 }
-
-.pagination a.disabled {
-    pointer-events: none; 
-    opacity: 0.6; 
-}
-
-.pagination a:hover:not(.active):not(.disabled) {
-    background-color: #a67c52; 
-    color: white; 
+nav a[style*="font-weight:bold;"] {
+    background-color: #65452f;
+    color: #fff;
 }
