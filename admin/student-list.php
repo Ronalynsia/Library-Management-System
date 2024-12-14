@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
 </table>
 <nav>
     <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="?page=<?php echo $i; ?>" <?php if ($i === $page) echo 'style="font-weight:bold;"'; ?>><?php echo $i; ?></a>
+        <a href="?page=<?php echo $i; ?>" <?php if ($i === $current_page) echo 'style="font-weight:bold;"'; ?>><?php echo $i; ?></a>
     <?php endfor; ?>
 </nav>
 
