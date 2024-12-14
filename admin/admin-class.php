@@ -198,23 +198,12 @@ public function getPaginatedStudents($limit, $offset) {
 }
 
 // Get total students count
-public function getTotalStudentsCount() {
+public function getStudentCount() {
     $stmt = $this->conn->prepare("SELECT COUNT(*) AS total_students FROM students");
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     return $row['total_students'];
-}
-
-// Fetch students with pagination
-public function getStudentsWithPagination($limit, $offset) {
-    $students = $this->getPaginatedStudents($limit, $offset);
-    $totalCount = $this->getTotalStudentsCount();
-
-    return [
-        'students' => $students,
-        'total_count' => $totalCount,
-    ];
 }
 
    
