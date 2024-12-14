@@ -3,14 +3,11 @@ session_start();
 require_once '../Config/database.php';
 require_once 'admin-class.php';
 
-
 $db = new Database();
 $admin = new Admin($db);
 
-
 $students = $admin->getAllStudents();
 $courses = $admin->getAllCourses();
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_student'])) {
     $first_name = $_POST['first_name'];
@@ -28,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_student'])) {
     exit();
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_student'])) {
     $id = $_POST['edit_id'];
     $first_name = $_POST['edit_first_name'];
@@ -45,9 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_student'])) {
     exit();
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
-    $id = $_POST['delete_student']; 
+    $id = $_POST['delete_student'];
 
     if ($admin->deleteStudent($id)) {
         $_SESSION['success'] = "Student deleted successfully!";
@@ -56,6 +51,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     }
 
     header("Location: student-list.php");
+    exit();
+}
+
+// Handle request for student data in JSON format (for the edit form)
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $student = $admin->getStudentById($id); // Assuming this method exists in the Admin class
+    if ($student) {
+        echo json_encode($student);
+    } else {
+        echo json_encode(['error' => 'Student not found']);
+    }
     exit();
 }
 ?>
@@ -68,8 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     <link rel="stylesheet" href="css/student-list.css">
     <title>Student List</title>
     <style>
-        
-         body {
+        body {
             font-family: 'Times New Roman', sans-serif;
             background-color: #c6dce769;
             margin: 0;
@@ -83,37 +89,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         }
 
         table {
-           width: 90%;
-           border-collapse: collapse;
+            width: 90%;
+            border-collapse: collapse;
             margin-top: 5px;
             background: #fff;
-           border-radius: 8px;
-           overflow: hidden;
-           margin-left: auto;
-          margin-right: auto;
-     
+            border-radius: 8px;
+            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         th, td {
-           border: 1px solid #ddd;
-           padding: 12px 10px;
-         text-align: center;
-           font-size: 15px;
+            border: 1px solid #ddd;
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 15px;
         }
 
         th {
-         background-color: #805c41;
-         padding: 8px 12px;
-         color: #fff;
-         }
+            background-color: #805c41;
+            padding: 8px 12px;
+            color: #fff;
+        }
 
         tr:nth-child(even) {
-          background-color: #f9f9f9;
+            background-color: #f9f9f9;
         }
-        
+
         tr:hover {
-         background-color: #886a527e;
+            background-color: #886a527e;
         }
+
         button, a.button {
             display: inline-block;
             background-color: #805c41;
@@ -151,7 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        
         input, select {
             width: 100%;
             padding: 5px;
@@ -170,7 +175,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         form button {
             margin-top: 10px;
         }
-            
 
     </style>
 </head>
@@ -183,9 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
 <?php endif; ?>
 
-
 <button onclick="showAddForm()">+ New Student</button>
-
 
 <table>
     <thead>
@@ -213,7 +215,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     </tbody>
 </table>
 
-
 <div id="add-student-modal" class="modal">
     <form method="POST">
         <h3>Add New Student</h3>
@@ -225,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         <input type="text" id="student-id" name="student_id" required><br>
         <label for="course">Course:</label>
         <select id="course" name="course_id">
-        <option value="">Select a course</option>
+            <option value="">Select a course</option>
             <?php while ($course = $courses->fetch_assoc()): ?>
                 <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
             <?php endwhile; ?>
@@ -235,7 +236,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     </form>
 </div>
 
-
 <div id="edit-student-modal" class="modal">
     <form method="POST">
         <h3>Edit Student</h3>
@@ -244,58 +244,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         <input type="text" id="edit-first-name" name="edit_first_name" required><br>
         <label for="edit-last-name">Last Name:</label>
         <input type="text" id="edit-last-name" name="edit_last_name" required><br>
-        <label for="course">Course:</label>
-<select id="course" name="course_id" required>
-  
-    <?php while ($course = $courses->fetch_assoc()): ?>
-        <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
-    <?php endwhile; ?>
-</select><br>
-
+        <label for="edit-course">Course:</label>
+        <select id="edit-course" name="edit_course_id" required>
+            <option value="">Select a course</option>
+            <?php while ($course = $courses->fetch_assoc()): ?>
+                <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
+            <?php endwhile; ?>
+        </select><br>
         <button type="submit" name="edit_student">Save Changes</button>
         <button type="button" onclick="hideEditForm()">Cancel</button>
     </form>
 </div>
 
-
 <div class="overlay" onclick="hideAddForm()"></div>
 
 <script>
-   
     function showAddForm() {
         document.getElementById('add-student-modal').style.display = 'block';
         document.querySelector('.overlay').style.display = 'block';
     }
 
-    
     function hideAddForm() {
         document.getElementById('add-student-modal').style.display = 'none';
         document.querySelector('.overlay').style.display = 'none';
     }
 
-  
     function showEditForm(id) {
         document.getElementById('edit-id').value = id;
         document.getElementById('edit-student-modal').style.display = 'block';
         document.querySelector('.overlay').style.display = 'block';
 
-  
         fetch('student-list.php?id=' + id)
             .then(response => response.json())
             .then(data => {
-                document.getElementById('edit-first-name').value = data.first_name;
-                document.getElementById('edit-last-name').value = data.last_name;
-                document.getElementById('edit-course').value = data.course_id;
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('edit-first-name').value = data.first_name;
+                    document.getElementById('edit-last-name').value = data.last_name;
+                    document.getElementById('edit-course').value = data.course_id;
+                }
             });
     }
-
 
     function hideEditForm() {
         document.getElementById('edit-student-modal').style.display = 'none';
         document.querySelector('.overlay').style.display = 'none';
     }
 
-   
     function confirmDelete(id) {
         console.log("Delete student ID:", id); 
         if (confirm('Are you sure you want to delete this student?')) {
@@ -312,11 +308,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         }
     }
 </script>
+
 <br>
-    <br>
-    <br>
-    <br>
-    <br>
 <a href="dashboard.php" class="button">Dashboard</a>
 
 </body>
