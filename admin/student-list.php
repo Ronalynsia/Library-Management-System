@@ -118,6 +118,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     <?php endfor; ?>
 </nav>
 
+<div id="add-student-modal" class="modal">
+    <form method="POST">
+        <h3>Add New Student</h3>
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" name="first_name" required><br>
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" name="last_name" required><br>
+        <label for="student-id">Student ID:</label>
+        <input type="text" id="student-id" name="student_id" required><br>
+        <label for="course">Course:</label>
+        <select id="course" name="course_id">
+        <option value="">Select a course</option>
+            <?php while ($course = $courses->fetch_assoc()): ?>
+                <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
+            <?php endwhile; ?>
+        </select><br>
+        <button type="submit" name="add_student">Add Student</button>
+        <button type="button" onclick="hideAddForm()">Cancel</button>
+    </form>
+</div>
+
+
+<div id="edit-student-modal" class="modal">
+    <form method="POST">
+        <h3>Edit Student</h3>
+        <input type="hidden" id="edit-id" name="edit_id">
+        <label for="edit-first-name">First Name:</label>
+        <input type="text" id="edit-first-name" name="edit_first_name" required><br>
+        <label for="edit-last-name">Last Name:</label>
+        <input type="text" id="edit-last-name" name="edit_last_name" required><br>
+        <label for="course">Course:</label>
+<select id="course" name="course_id" required>
+  
+    <?php while ($course = $courses->fetch_assoc()): ?>
+        <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
+    <?php endwhile; ?>
+</select><br>
+
+        <button type="submit" name="edit_student">Save Changes</button>
+        <button type="button" onclick="hideEditForm()">Cancel</button>
+    </form>
+</div>
+
+
+<div class="overlay" onclick="hideAddForm()"></div>
 
 
 
