@@ -11,15 +11,14 @@ $categories = $admin->getAllCategories();
 
 
 // Pagination setup
-$limit = 5; // Maximum rows per page
-$total_books = $admin->getTotalBooks(); // Get total number of books
-$total_pages = ceil($total_books / $limit);
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$current_page = max(1, min($current_page, $total_pages)); // Ensure the current page is within bounds
-$offset = ($current_page - 1) * $limit;
+$limit = 5; // Books per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
-// Fetch paginated books
+// Fetch paginated books and total book count
 $books = $admin->getPaginatedBooks($limit, $offset);
+$totalBooks = $admin->getBookCount();
+$totalPages = ceil($totalBooks / $limit);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add_book'])) {
@@ -172,11 +171,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endforeach; ?>
     </tbody>
 </table>
-<nav>
-    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="?page=<?= $i; ?>" <?= $i === $current_page ? 'style="font-weight:bold;"' : ''; ?>><?= $i; ?></a>
+<div style="text-align: center; margin-top: 20px;">
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <a href="?page=<?= $i; ?>" style="margin: 0 5px; text-decoration: none; 
+           <?= ($i === $page) ? 'font-weight: bold; color: #805c41;' : 'color: #333;' ?>">
+            <?= $i; ?>
+        </a>
     <?php endfor; ?>
-</nav>
+</div>
+
 <script>
 function showModal(modalId) {
     document.getElementById('overlay').classList.add('active');
