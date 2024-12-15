@@ -218,11 +218,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     <form method="POST">
         <h3>Add New Student</h3>
         <label for="first-name">First Name:</label>
-        <input type="text" id="first-name" name="first_name" required><br>
+        <input type="text" id="first_name" name="first_name" required><br>
         <label for="last-name">Last Name:</label>
-        <input type="text" id="last-name" name="last_name" required><br>
+        <input type="text" id="last_name" name="last_name" required><br>
         <label for="student-id">Student ID:</label>
-        <input type="text" id="student-id" name="student_id" required><br>
+        <input type="text" id="student_id" name="student_id" required><br>
         <label for="course">Course:</label>
         <select id="course" name="course_id">
         <option value="">Select a course</option>
