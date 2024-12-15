@@ -6,6 +6,14 @@ require_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
+// Pagination setup
+$limit = 5; // Records per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$total_transactions = $admin->getBorrowTransactionCount();
+$total_pages = ceil($total_transactions/ limit);
+
 $limit = 5; // Records per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
@@ -15,6 +23,8 @@ $total_pages = ceil($total_transactions / $limit);
 
 $transactions = $admin->getBorrowTransactionsPaginated($limit, $offset);
 $books = $admin->getAllBooks();
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_transaction'])) {
     $transaction_id = $_POST['delete_id'];
@@ -148,7 +158,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
     <form id="delete-form" method="POST" style="display: none;">
         <input type="hidden" name="delete_transaction" value="1">
     </form>
-  
     <a href="dashboard.php" class="button">Dashboard</a>
 </body>
 </html>
