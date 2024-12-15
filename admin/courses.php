@@ -6,16 +6,7 @@ require_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
-public function getPaginatedCourses($limit, $offset) {
-    $query = "SELECT courses.*, categories.category_name FROM courses
-              LEFT JOIN categories ON courses.category_id = categories.id
-              LIMIT ? OFFSET ?";
-    $stmt = $this->db->prepare($query);
-    $stmt ->bind_param("ii",$limit, $offset);
-    $stmt ->execute();
-    return $stmt->get_result();
 
-}
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
