@@ -105,8 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
                 <td><?php echo htmlspecialchars($student['first_name']); ?></td>
                 <td><?php echo htmlspecialchars($student['last_name']); ?></td>
                 <td>
-                    <button onclick="showEditForm(<?php echo $student['student_id']; ?>)">Edit</button>
-                    <button onclick="confirmDelete(<?php echo $student['student_id']; ?>)">Delete</button>
+                    <button onclick="showEditForm(<?php echo $student['id']; ?>)">Edit</button>
+                    <button onclick="confirmDelete(<?php echo $student['id']; ?>)">Delete</button>
                 </td>
             </tr>
         <?php endwhile; ?>
@@ -152,7 +152,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         <input type="text" id="edit-last-name" name="edit_last_name" required><br>
         <label for="edit-course">Course:</label>
         <select id="edit-course" name="edit_course_id" required>
-            <option value="">Select a course</option>
             <?php foreach ($courses as $course): ?>
                 <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
             <?php endforeach; ?>
@@ -175,18 +174,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         document.querySelector('.overlay').style.display = 'none';
     }
 
-    function showEditForm(id) {
-        document.getElementById('edit-id').value = id;
-        document.getElementById('edit-student-modal').style.display = 'block';
-        document.querySelector('.overlay').style.display = 'block';
-
-        fetch('student-list.php?id=' + id)
+    function showEditForm(studentId) {
+        fetch(`fetch-student.php?id=${studentId}`)
             .then(response => response.json())
             .then(data => {
+                document.getElementById('edit-id').value = data.id;
                 document.getElementById('edit-first-name').value = data.first_name;
                 document.getElementById('edit-last-name').value = data.last_name;
                 document.getElementById('edit-course').value = data.course_id;
-            });
+                document.getElementById('edit-student-modal').style.display = 'block';
+                document.querySelector('.overlay').style.display = 'block';
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     function hideEditForm() {

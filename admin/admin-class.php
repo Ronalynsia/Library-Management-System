@@ -206,6 +206,17 @@ public function getStudentCount() {
     return $row['total_students'];
 }
 
+public function getStudentById($id) {
+    $query = "SELECT s.id, s.first_name, s.last_name, s.course_id
+              FROM students s
+              WHERE s.id = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
    
 
 // Add a new course
