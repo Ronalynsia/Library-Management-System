@@ -69,6 +69,7 @@ $categories = $admin->getCategories();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category Dashboard - Library System</title>
+    <link rel="stylesheet" href="css/category.css">
 
     <script>
         function editCategory(id, currentName) {
