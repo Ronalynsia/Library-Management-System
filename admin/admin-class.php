@@ -81,25 +81,6 @@ public function updateBook($id, $isbn, $title, $author, $published_date, $quanti
     $stmt->close();
     return $success;
 }
-public function getPaginatedBooks($limit, $offset) {
-    $query = "SELECT b.id, b.isbn, b.title, b.author, b.published_date, b.quantity, c.category_name, c.id AS category_id
-              FROM books b
-              JOIN categories c ON b.category_id = c.id
-              LIMIT ? OFFSET ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("ii", $limit, $offset);
-    $stmt->execute();
-    return $stmt->get_result();
-}
-
-public function getBookCount() {
-    $query = "SELECT COUNT(*) AS total FROM books";
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    $result = $stmt->get_result()->fetch_assoc();
-    return $result['total'];
-}
-
 // Delete a book
 public function deleteBook($id) {
     $query = "DELETE FROM books WHERE id = ?";
@@ -136,23 +117,6 @@ public function getBookTitleByIsbn($isbn) {
     $book = $result->fetch_assoc();
     return $book ? $book['title'] : 'Unknown Title';
 }
-
-
-public function getCategoryCount() {
-    $query = "SELECT COUNT(*) as total FROM categories";
-    $result = $this->conn->query($query);
-    $row = $result->fetch_assoc();
-    return $row['total'];
-}
-
-public function getCategoriesPaginated($limit, $offset) {
-    $query = "SELECT * FROM categories ORDER BY category_name ASC LIMIT ? OFFSET ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("ii", $limit, $offset);
-    $stmt->execute();
-    return $stmt->get_result();
-}
-
 
 // Add a new category
 public function addCategory($category_name) {
@@ -281,21 +245,9 @@ public function addBorrowTransaction($student_id, $student_name, $isbn) {
 
 
 
-// Fetch return transactions with pagination
-public function getReturnTransactionsPaginated($limit, $offset) {
-    $sql = "SELECT * FROM return_transactions ORDER BY return_date DESC LIMIT ? OFFSET ?";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("ii", $limit, $offset);
-    $stmt->execute();
-    return $stmt->get_result();
-}
 
-// Get total transaction count for pagination
-public function getTransactionCount() {
-    $sql = "SELECT COUNT(*) AS total FROM return_transactions";
-    $result = $this->conn->query($sql);
-    return $result->fetch_assoc()['total'];
-}
+
+
     // Return book (increase the quantity)
     public function returnBook($book_id, $quantity_returned) {
         // Check current available quantity

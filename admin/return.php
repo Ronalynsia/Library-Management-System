@@ -7,15 +7,6 @@ $db = new Database();
 $admin = new Admin($db);
 $books = $admin->getAllBooks();
 
-// Pagination setup
-$limit = 5; // Records per page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $limit;
-
-$total_transactions = $admin->getTransactionCount();
-$total_pages = ceil($total_transactions / $limit);
-
-$transactions = $admin->getReturnTransactionsPaginated($limit, $offset);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_transaction'])) {
     $transaction_id = $_POST['delete_id'];
