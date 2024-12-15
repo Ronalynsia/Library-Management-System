@@ -81,16 +81,25 @@ public function updateBook($id, $isbn, $title, $author, $published_date, $quanti
     $stmt->close();
     return $success;
 }
-// Fetch books with pagination
 public function getPaginatedBooks($limit, $offset) {
-    $query = "SELECT books.*, categories.category_name FROM books 
-              LEFT JOIN categories ON books.category_id = categories.id
+    $query = "SELECT b.id, b.isbn, b.title, b.author, b.published_date, b.quantity, c.category_name, c.id AS category_id
+              FROM books b
+              JOIN categories c ON b.category_id = c.id
               LIMIT ? OFFSET ?";
-    $stmt = $this->db->prepare($query);
+    $stmt = $this->conn->prepare($query);
     $stmt->bind_param("ii", $limit, $offset);
     $stmt->execute();
     return $stmt->get_result();
 }
+
+public function getBookCount() {
+    $query = "SELECT COUNT(*) AS total FROM books";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    return $result['total'];
+}
+
 // Delete a book
 public function deleteBook($id) {
     $query = "DELETE FROM books WHERE id = ?";
@@ -129,6 +138,22 @@ public function getBookTitleByIsbn($isbn) {
 }
 
 
+public function getCategoryCount() {
+    $query = "SELECT COUNT(*) as total FROM categories";
+    $result = $this->conn->query($query);
+    $row = $result->fetch_assoc();
+    return $row['total'];
+}
+
+public function getCategoriesPaginated($limit, $offset) {
+    $query = "SELECT * FROM categories ORDER BY category_name ASC LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+
 // Add a new category
 public function addCategory($category_name) {
     $query = "INSERT INTO categories (category_name) VALUES (?)";
@@ -159,6 +184,24 @@ public function getCategories() {
     return $this->conn->query($query);
 }
 
+// Fetch students with pagination
+public function getPaginatedStudents($limit, $offset) {
+    $query = "SELECT students.*, courses.course_name 
+              FROM students 
+              LEFT JOIN courses ON students.course_id = courses.id
+              LIMIT ? OFFSET ?";
+    $stmt = $this->db->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+// Count total number of students
+public function getStudentCount() {
+    $query = "SELECT COUNT(*) as total FROM students";
+    $result = $this->db->query($query);
+    return $result->fetch_assoc()['total'];
+}
 
     // Add a new student
 public function addStudent($first_name, $last_name, $course_id, $student_id = null) {
@@ -188,6 +231,19 @@ public function deleteStudent($id) {
 
 
    
+ // 5. Get Total Course Count for Pagination
+ public function getCourseCount() {
+    $query = "SELECT COUNT(*) as total FROM courses";
+    $result = $this->conn->query($query);
+    $row = $result->fetch_assoc();
+    return $row['total'];
+}
+
+// 6. Calculate Total Pages
+public function getTotalPages($limit) {
+    $totalCourses = $this->getCourseCount();
+    return ceil($totalCourses / $limit); // Calculate total number of pages
+}
 
 // Add a new course
 public function addCourse($course_name, $description) {
@@ -221,7 +277,22 @@ public function getCourses() {
     return $stmt->get_result();
 }
 
+ // Get the total number of borrow transactions
+ public function getBorrowTransactionCount() {
+    $query = "SELECT COUNT(*) as total FROM borrow_transactions";
+    $result = $this->conn->query($query);
+    $row = $result->fetch_assoc();
+    return $row['total'];
+}
 
+// Fetch paginated borrow transactions
+public function getBorrowTransactionsPaginated($limit, $offset) {
+    $query = "SELECT * FROM borrow_transactions ORDER BY borrow_date DESC LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
 // Insert a new borrow transaction
 public function borrowBook($student_id, $student_name, $isbn, $borrow_date, $status) {
     // Prepare SQL query to insert the borrow transaction
@@ -263,7 +334,21 @@ public function addBorrowTransaction($student_id, $student_name, $isbn) {
 
 
 
+// Fetch return transactions with pagination
+public function getReturnTransactionsPaginated($limit, $offset) {
+    $sql = "SELECT * FROM return_transactions ORDER BY return_date DESC LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
 
+// Get total transaction count for pagination
+public function getTransactionCount() {
+    $sql = "SELECT COUNT(*) AS total FROM return_transactions";
+    $result = $this->conn->query($sql);
+    return $result->fetch_assoc()['total'];
+}
     // Return book (increase the quantity)
     public function returnBook($book_id, $quantity_returned) {
         // Check current available quantity

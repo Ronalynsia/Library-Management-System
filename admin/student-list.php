@@ -12,6 +12,17 @@ $students = $admin->getAllStudents();
 $courses = $admin->getAllCourses();
 
 
+// Pagination setup
+$limit = 5; // Number of students per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// Fetch paginated students and total student count
+$students = $admin->getPaginatedStudents($limit, $offset);
+$totalStudents = $admin->getStudentCount();
+$totalPages = ceil($totalStudents / $limit);
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_student'])) {
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
@@ -170,6 +181,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         form button {
             margin-top: 10px;
         }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 5px;
+            background-color: #805c41;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .pagination a:hover {
+            background-color: #65452f;
+        }
             
 
     </style>
@@ -212,6 +240,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         <?php endwhile; ?>
     </tbody>
 </table>
+<!-- Pagination Controls -->
+<div style="text-align: center; margin-top: 20px;">
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <a href="?page=<?php echo $i; ?>" style="margin: 0 5px; text-decoration: none; 
+           <?php echo ($i === $page) ? 'font-weight: bold; color: #805c41;' : 'color: #333;' ?>">
+            <?php echo $i; ?>
+        </a>
+    <?php endfor; ?>
+</div>
+
 
 
 <div id="add-student-modal" class="modal">
@@ -312,12 +350,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         }
     }
 </script>
-<br>
-    <br>
-    <br>
-    <br>
-    <br>
 <a href="dashboard.php" class="button">Dashboard</a>
-
 </body>
 </html>

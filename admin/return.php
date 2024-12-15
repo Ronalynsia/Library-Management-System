@@ -5,12 +5,20 @@ require_once 'admin-class.php';
 
 $db = new Database();
 $admin = new Admin($db);
-$transactions = $admin->getAllReturnTransactions();
 $books = $admin->getAllBooks();
+
+// Pagination setup
+$limit = 5; // Records per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$total_transactions = $admin->getTransactionCount();
+$total_pages = ceil($total_transactions / $limit);
+
+$transactions = $admin->getReturnTransactionsPaginated($limit, $offset);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_transaction'])) {
     $transaction_id = $_POST['delete_id'];
-
     if ($admin->deleteReturnTransaction($transaction_id)) {
         $_SESSION['success'] = "Transaction deleted successfully!";
     } else {
@@ -47,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
             padding: 40px;
             color: #333;
         }
-        h3 {
+        h2, h3 {
             margin-bottom: 20px;
             color: #4a3135;
         }
@@ -126,6 +134,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
         form button {
             margin-top: 10px;
         }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 5px;
+            background-color: #805c41;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .pagination a:hover {
+            background-color: #65452f;
+        }
     </style>
     <script>
         function openModal() {
@@ -133,11 +158,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
         }
         function closeModal() {
             document.getElementById("add-return-modal").style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target === document.getElementById("add-return-modal")) {
-                closeModal();
-            }
         }
         function confirmDelete(transactionId) {
             if (confirm("Are you sure you want to delete this transaction?")) {
@@ -154,35 +174,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
 </head>
 <body>
     <h2>Return Transactions</h2>
-    <button onclick="openModal()" class="add-return-btn">+ Return a Book</button>
+    <button onclick="openModal()">+ Return a Book</button>
+
     <div id="add-return-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+        <form method="POST">
             <h3>Add Return Transaction</h3>
-            <form method="POST">
-                <label for="student_id">Student ID:</label><br>
-                <input type="text" id="student_id" name="student_id" required><br><br>
-                <label for="student_name">Student Name:</label><br>
-                <input type="text" id="student_name" name="student_name" required><br><br>
-                <label for="isbn">Select Book:</label><br>
-                <select id="isbn" name="isbn" required>
-                    <option value="">Select a book</option>
-                    <?php while ($book = $books->fetch_assoc()): ?>
-                        <option value="<?php echo $book['isbn']; ?>">
-                            <?php echo htmlspecialchars($book['title']); ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select><br><br>
-                <button type="submit" name="add_return">Return Book</button>
-            </form>
-        </div>
+            <label for="student_id">Student ID:</label>
+            <input type="text" name="student_id" required>
+            <label for="student_name">Student Name:</label>
+            <input type="text" name="student_name" required>
+            <label for="isbn">Select Book:</label>
+            <select name="isbn" required>
+                <option value="">Select a book</option>
+                <?php while ($book = $books->fetch_assoc()): ?>
+                    <option value="<?php echo $book['isbn']; ?>"><?php echo htmlspecialchars($book['title']); ?></option>
+                <?php endwhile; ?>
+            </select>
+            <button type="submit" name="add_return">Return Book</button>
+            <button type="button" onclick="closeModal()">Close</button>
+        </form>
     </div>
+
     <?php if (isset($_SESSION['success'])): ?>
         <p style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
     <?php elseif (isset($_SESSION['error'])): ?>
         <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
     <?php endif; ?>
-    <h3>Return Transaction List</h3>
+
     <table>
         <thead>
             <tr>
@@ -197,30 +215,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_return'])) {
         </thead>
         <tbody>
             <?php while ($transaction = $transactions->fetch_assoc()): ?>
-                <?php $book_title = $admin->getBookTitleByIsbn($transaction['isbn']); ?>
                 <tr>
                     <td><?php echo htmlspecialchars($transaction['student_id']); ?></td>
                     <td><?php echo htmlspecialchars($transaction['student_name']); ?></td>
                     <td><?php echo htmlspecialchars($transaction['isbn']); ?></td>
-                    <td><?php echo htmlspecialchars($book_title); ?></td>
+                    <td><?php echo htmlspecialchars($admin->getBookTitleByIsbn($transaction['isbn'])); ?></td>
                     <td><?php echo htmlspecialchars($transaction['return_date']); ?></td>
                     <td><?php echo htmlspecialchars($transaction['status']); ?></td>
                     <td>
-                        <button type="button" onclick="confirmDelete(<?php echo $transaction['id']; ?>)">Delete</button>
+                        <button onclick="confirmDelete(<?php echo $transaction['id']; ?>)">Delete</button>
                     </td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
+
+    <!-- Pagination Links -->
+    <div class="pagination">
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+        <?php endfor; ?>
+    </div>
+
     <form id="delete-form" method="POST" style="display: none;">
         <input type="hidden" name="delete_transaction" value="1">
     </form>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    
     <a href="dashboard.php" class="button">Dashboard</a>
 </body>
 </html>
