@@ -6,6 +6,8 @@ include_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
+
+
 // Pagination Logic
 $limit = 5; // Number of courses per page
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -13,14 +15,16 @@ $offset = ($current_page - 1) * $limit;
 
 // Fetch paginated courses and total count
 $total_courses = $admin->getCourseCount();
-$total_pages = ceil($total_courses / $limit);
+$totalPages = ceil($total_courses / $limit);
 $courses = $admin->getCoursesPaginated($limit, $offset);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
     if (isset($_POST['add_course'])) {
         $course_name = trim($_POST['course_name']);
         $description = trim($_POST['description']);
         if (!empty($course_name) && !empty($description)) {
+           
             $course_name = htmlspecialchars($course_name);
             $description = htmlspecialchars($description);
             if ($admin->addCourse($course_name, $description)) {
@@ -59,83 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-$courses_result = $admin->getCourses(); 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Dashboard - Library System</title>
-    <style>
-        body {
-            font-family: 'Times New Roman', sans-serif;
-            background-color: #c6dce769;
-            margin: 0;
-            padding: 40px;
-            color: #333;
-        }
-
-        h3 {
-            margin-bottom: 5px;
-            color: #4a3f35;
-        }
-
-        table {
-            width: 90%;
-            border-collapse: collapse;
-            margin-top: 5px;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px 10px;
-            text-align: center;
-            font-size: 15px;
-        }
-
-        th {
-            background-color: #805c41;
-            color: #fff;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #886a527e;
-        }
-
-        button, a.button {
-            display: inline-block;
-            background-color: #805c41;
-            color: #fff;
-            padding: 8px 12px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            font-size: 15px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        button:hover, a.button:hover {
-            background-color: #65452f;
-            transform: scale(1.05);
-        }
-
-        button:active, a.button:active {
-            transform: scale(0.98);
-        }
-    </style>
+    <link rel="stylesheet" href="css/courses.css">
+    <title>Course List - Library System</title>
 </head>
 <body>
     <h2>Course Dashboard</h2>
@@ -160,7 +96,7 @@ $courses_result = $admin->getCourses();
         <button type="submit" name="add_course">Add Course</button>
     </form>
     <hr>
-    
+   
     <h3>Existing Courses</h3>
     <table>
         <thead>
@@ -184,32 +120,47 @@ $courses_result = $admin->getCourses();
         </tbody>
     </table>
 
-    <!-- Pagination Links -->
-    <div style="text-align: center; margin-top: 20px;">
-        <?php if ($total_pages > 1): ?>
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <a href="?page=<?php echo $i; ?>" 
-                   style="margin: 0 5px; padding: 5px 10px; background: <?php echo $current_page == $i ? '#65452f' : '#805c41'; ?>;
-                    color: #fff; border-radius: 3px; text-decoration: none;">
-                    <?php echo $i; ?>
-                </a>
-            <?php endfor; ?>
-        <?php endif; ?>
+    <div class="pagination">
+        <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+            <a href="?page=<?php echo $i; ?>" class="<?php echo $i == $page ? 'active' : ''; ?>">
+                <?php echo $i; ?>
+            </a>
+        <?php } ?>
     </div>
 
+
+    
     <script>
-        function editCourse(id, currentName, currentDescription) {
+        function editCourse(id, currentName, currentDescription){
             var newName = prompt("Edit course name:", currentName);
             var newDescription = prompt("Edit course description:", currentDescription);
-            if (newName && newDescription) {
+            if (newName && newDescription){
                 var form = document.createElement("form");
                 form.method = "POST";
                 form.action = "courses.php";
 
-                form.appendChild(createInput('edit_id', id));
-                form.appendChild(createInput('edit_course_name', newName));
-                form.appendChild(createInput('edit_course_description', newDescription));
-                form.appendChild(createInput('edit_course', '1'));
+                var inputId = document.createElement("input");
+                inputId.type = "hidden";
+                inputId.name = "edit_id";
+                inputId.value = id;
+                form.appendChild(inputId);
+
+                var inputName = document.createElement("input");
+                inputName.type = "hidden";
+                inputName.name = "edit_course_name";
+                inputName.value = newName;
+                form.appendChild(inputName);
+
+                var inputDescription = document.createElement("input");
+                inputDescription.type = "hidden";
+                inputDescription.name = "edit_course_description";
+                inputDescription.value = newDescription;
+                form.appendChild(inputDescription);
+
+                var inputSubmit = document.createElement("input");
+                inputSubmit.type = "hidden";
+                inputSubmit.name = "edit_course";
+                form.appendChild(inputSubmit);
 
                 document.body.appendChild(form);
                 form.submit();
@@ -222,20 +173,20 @@ $courses_result = $admin->getCourses();
                 form.method = "POST";
                 form.action = "courses.php";
 
-                form.appendChild(createInput('delete_id', id));
-                form.appendChild(createInput('delete_course', '1'));
+                var inputId = document.createElement("input");
+                inputId.type = "hidden";
+                inputId.name = "delete_id";
+                inputId.value = id;
+                form.appendChild(inputId);
+
+                var inputSubmit = document.createElement("input");
+                inputSubmit.type = "hidden";
+                inputSubmit.name = "delete_course";
+                form.appendChild(inputSubmit);
 
                 document.body.appendChild(form);
                 form.submit();
             }
-        }
-
-        function createInput(name, value) {
-            var input = document.createElement("input");
-            input.type = "hidden";
-            input.name = name;
-            input.value = value;
-            return input;
         }
     </script>
 </body>
