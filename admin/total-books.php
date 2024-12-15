@@ -150,7 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <td><?= htmlspecialchars($book['author']); ?></td>
                 <td><?= htmlspecialchars($book['published_date']); ?></td>
                 <td><?= htmlspecialchars($book['quantity']); ?></td>
-                <td><?= $book['quantity'] > 0 ? "Available" : "Not Available"; ?></td>
+                <td style="color: <?= $book['quantity'] > 0 ? 'green' : 'red'; ?>; font-weight: bold;">
+                    <?= $book['quantity'] > 0 ? "Available" : "Not Available"; ?>
                 <td>
                     <button onclick="showEditForm(
                         <?= $book['id']; ?>,
