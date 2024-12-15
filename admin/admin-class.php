@@ -145,7 +145,6 @@ public function getCategoriesPaginated($limit, $offset) {
 
 
 
-
 // Add a new category
 public function addCategory($category_name) {
     $query = "INSERT INTO categories (category_name) VALUES (?)";
