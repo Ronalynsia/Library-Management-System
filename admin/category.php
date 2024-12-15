@@ -5,6 +5,18 @@ include_once 'admin-class.php';
 
 $db = new Database();
 $admin = new Admin($db);
+
+// Pagination Logic
+$limit = 5; // Number of categories per page
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($current_page - 1) * $limit;
+
+// Fetch paginated categories and total count
+$total_categories = $admin->getCategoryCount();
+$total_pages = ceil($total_categories / $limit);
+
+$categories = $admin->getCategoriesPaginated($limit, $offset);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (isset($_POST['add_category'])) {
         $category_name = trim($_POST['category_name']);
@@ -48,8 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     }
 }
-
-$categories = $admin->getCategories();
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +68,7 @@ $categories = $admin->getCategories();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category Dashboard - Library System</title>
+    <link rel="stylesheet" href="css/category.php">
     <style>
       
     body{
@@ -215,12 +226,19 @@ button:active, a.button:active {
             <?php } ?>
         </tbody>
     </table>
+     <!-- Pagination Links -->
+     <div style="text-align: center; margin-top: 20px;">
+        <?php if ($total_pages > 1): ?>
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="?page=<?php echo $i; ?>" 
+                   style="margin: 0 5px; padding: 5px 10px; background: <?php echo $current_page == $i ? '#65452f' : '#805c41'; ?>;
+                    color: #fff; border-radius: 3px; text-decoration: none;">
+                    <?php echo $i; ?>
+                </a>
+            <?php endfor; ?>
+        <?php endif; ?>
+    </div>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <a href="dashboard.php" class="button">Dashboard</a>
 
 </body>
