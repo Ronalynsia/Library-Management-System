@@ -56,6 +56,78 @@ $courses_result = $admin->getCourses();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/courses.css">
     <title>Course List - Library System</title>
+
+<style>
+     body {
+        font-family: 'Times New Roman', sans-serif;
+    background-color: #94672b4b;
+    margin: 0;
+    padding:0;
+    padding: 40px;
+    color: #333;
+}
+
+h3 {
+    margin-bottom: 5px;
+    color: #4a3f35;
+}
+
+table {
+    width: 90%; 
+    border-collapse: collapse;
+    margin-top: 5px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+    text-align: center;
+    font-size: 15px; 
+}
+
+th {
+    background-color: #805c41;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #886a527e;
+}
+
+
+button, a.button {
+    display: inline-block;
+    background-color: #805c41;
+    color: #fff;
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 15px; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover, a.button:hover {
+    background-color: #65452f;
+    transform: scale(1.05);
+}
+
+button:active, a.button:active {
+    transform: scale(0.98);
+}
+    </style>
 </head>
 <body>
 

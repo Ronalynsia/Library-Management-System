@@ -68,70 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category Dashboard - Library System</title>
-    <link rel="stylesheet" href="css/category.php">
-    <style>
-      
-    body{
-    font-family: 'Times New Roman', sans-serif;
-    background-color: #c6dce769;
-    margin: 0;
-    padding:0;
-    padding: 40px;
-    color: #333;
-}
-h3{
-    margin-bottom: 5px;
-    color: #4a3f35;
-}
-table {
-    width: 90%;
-    border-collapse: collapse;
-    margin-top: 5px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-left: auto;
-    margin-right: auto;
-}
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px 10px; /* Reduced padding for a smaller table */
-    text-align: center;
-    font-size: 15px; /* Smaller font size */
-}
-th{
-    background-color: #805c41;
-    color: #fff;
-}
-tr:nth-child(even){
-    background-color: #f9f9f9;
-}
-tr:hover{
-    background-color: #886a527e;
-}
-button, a.button {
-    display: inline-block;
-    background-color: #805c41;
-    color: #fff;
-    padding: 8px 12px; /* Reduced button padding */
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 15px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-button:hover, a.button:hover {
-    background-color: #65452f;
-    transform: scale(1.05);
-}
-button:active, a.button:active {
-    transform: scale(0.98);
-}
-    </style>
-  
+    <link rel="stylesheet" href="css/category.css">
+
     <script>
         function editCategory(id, currentName) {
             var newName = prompt("Edit category name:", currentName);
