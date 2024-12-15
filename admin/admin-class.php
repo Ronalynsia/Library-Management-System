@@ -183,26 +183,6 @@ public function getCategories() {
     $query = "SELECT * FROM categories";
     return $this->conn->query($query);
 }
-
-// Fetch students with pagination
-public function getPaginatedStudents($limit, $offset) {
-    $query = "SELECT students.*, courses.course_name 
-              FROM students 
-              LEFT JOIN courses ON students.course_id = courses.id
-              LIMIT ? OFFSET ?";
-    $stmt = $this->db->prepare($query);
-    $stmt->bind_param("ii", $limit, $offset);
-    $stmt->execute();
-    return $stmt->get_result();
-}
-
-// Count total number of students
-public function getStudentCount() {
-    $query = "SELECT COUNT(*) as total FROM students";
-    $result = $this->db->query($query);
-    return $result->fetch_assoc()['total'];
-}
-
     // Add a new student
 public function addStudent($first_name, $last_name, $course_id, $student_id = null) {
     // If student_id is not passed, generate it or handle accordingly
@@ -227,22 +207,6 @@ public function deleteStudent($id) {
     $stmt = $this->conn->prepare($query);
     $stmt->bind_param("i", $id);
     return $stmt->execute();
-}
-
-
-   
- // 5. Get Total Course Count for Pagination
- public function getCourseCount() {
-    $query = "SELECT COUNT(*) as total FROM courses";
-    $result = $this->conn->query($query);
-    $row = $result->fetch_assoc();
-    return $row['total'];
-}
-
-// 6. Calculate Total Pages
-public function getTotalPages($limit) {
-    $totalCourses = $this->getCourseCount();
-    return ceil($totalCourses / $limit); // Calculate total number of pages
 }
 
 // Add a new course
@@ -273,23 +237,6 @@ public function deleteCourse($id) {
 public function getCourses() {
     $query = "SELECT * FROM courses";
     $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    return $stmt->get_result();
-}
-
- // Get the total number of borrow transactions
- public function getBorrowTransactionCount() {
-    $query = "SELECT COUNT(*) as total FROM borrow_transactions";
-    $result = $this->conn->query($query);
-    $row = $result->fetch_assoc();
-    return $row['total'];
-}
-
-// Fetch paginated borrow transactions
-public function getBorrowTransactionsPaginated($limit, $offset) {
-    $query = "SELECT * FROM borrow_transactions ORDER BY borrow_date DESC LIMIT ? OFFSET ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("ii", $limit, $offset);
     $stmt->execute();
     return $stmt->get_result();
 }
