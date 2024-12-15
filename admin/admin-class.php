@@ -323,6 +323,21 @@ public function addBorrowTransaction($student_id, $student_name, $isbn) {
 
 
 
+// Fetch return transactions with pagination
+public function getReturnTransactionsPaginated($limit, $offset) {
+    $sql = "SELECT * FROM return_transactions ORDER BY return_date DESC LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+// Get total transaction count for pagination
+public function getTransactionCount() {
+    $sql = "SELECT COUNT(*) AS total FROM return_transactions";
+    $result = $this->conn->query($sql);
+    return $result->fetch_assoc()['total'];
+}
     // Return book (increase the quantity)
     public function returnBook($book_id, $quantity_returned) {
         // Check current available quantity
