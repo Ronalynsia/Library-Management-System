@@ -128,6 +128,23 @@ public function getBookTitleByIsbn($isbn) {
     return $book ? $book['title'] : 'Unknown Title';
 }
 
+public function getCategoryCount() {
+    $query = "SELECT COUNT(*) as total FROM categories";
+    $result = $this->conn->query($query);
+    $row = $result->fetch_assoc();
+    return $row['total'];
+}
+
+public function getCategoriesPaginated($limit, $offset) {
+    $query = "SELECT * FROM categories ORDER BY category_name ASC LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+
+
 
 // Add a new category
 public function addCategory($category_name) {
