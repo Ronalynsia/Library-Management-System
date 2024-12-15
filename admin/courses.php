@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     </script>
-</head>
+    </head>
 <body>
     <h2>Course Management</h2>
 
@@ -233,13 +233,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tbody>
     </table>
 
-    <div class="pagination">
-        <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
-            <a href="?page=<?php echo $i; ?>" class="<?php echo ($i == $current_page) ? 'active' : ''; ?>">
-                <?php echo $i; ?>
-            </a>
-        <?php } ?>
-    </div>
+    <div style="text-align: center; margin-top: 20px;">
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <a href="?page=<?= $i; ?>" style="margin: 0 5px; text-decoration: none; 
+           <?= ($i === $page) ? 'font-weight: bold; color: #805c41;' : 'color: #333;' ?>">
+            <?= $i; ?>
+        </a>
+    <?php endfor; ?>
+</div>
+    
 
     <a href="dashboard.php" class="button">Back to Dashboard</a>
 </body>
