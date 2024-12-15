@@ -266,6 +266,23 @@ public function getCourses() {
     return $stmt->get_result();
 }
 
+// Get the total number of borrow transactions
+public function getBorrowTransactionCount (){
+    $query = "SELECT COUNT (*) as total FROM borrow_transactions";
+    $result = $this->conn->query ($query) ;
+    $row = $result->fetch_assoc();
+    return $row['total'];
+    }
+    
+    // Fetch paginated borrow transactions
+    public function getBorrowTransactionsPaginated ($limit, $offset){
+    $query = "SELECT * FROM borrow_transactions ORDER BY borrow_date DESC LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare ($query);
+    $stmt->bind_param( "ii", $limit, $offset);
+    $stmt->execute ();
+    return $stmt->get_result();
+    }
+
 
 // Insert a new borrow transaction
 public function borrowBook($student_id, $student_name, $isbn, $borrow_date, $status) {

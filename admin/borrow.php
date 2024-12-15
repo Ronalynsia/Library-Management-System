@@ -6,8 +6,18 @@ require_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
+// Pagination setup
+$limit = 5; // Records per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$total_transactions = $admin->getBorrowTransactionCount();
+$total_pages = ceil($total_transactions/ limit);
+
 $transactions = $admin->getAllBorrowTransactions();
 $books = $admin->getAllBooks();
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_transaction'])) {
     $transaction_id = $_POST['delete_id'];
@@ -232,6 +242,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
     <br>
     <br>
     <br>
+
+    <!-- Pagination Links -->
+<div class=" pagination " >
+    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+    <?php endfor; ?>
+</div>
+
+
     <a href="dashboard.php" class="button">Dashboard</a>
 </body>
 </html>
