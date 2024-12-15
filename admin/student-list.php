@@ -239,11 +239,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
 <div id="edit-student-modal" class="modal">
     <form method="POST">
         <h3>Edit Student</h3>
-        <input type="hidden" id="edit-id" name="edit_id">
-        <label for="edit-first-name">First Name:</label>
-        <input type="text" id="edit-first-name" name="edit_first_name" required><br>
+        <input type="hidden" id="edit_id" name="edit_id">
+        <label for="edit_first_name">First Name:</label>
+        <input type="text" id="edit_first_name" name="edit_first_name" required><br>
         <label for="edit-last-name">Last Name:</label>
-        <input type="text" id="edit-last-name" name="edit_last_name" required><br>
+        <input type="text" id="edit_last_name" name="edit_last_name" required><br>
         <label for="course">Course:</label>
 <select id="course" name="course_id" required>
   
