@@ -256,8 +256,19 @@ public function deleteCourse($id) {
     $stmt->bind_param("i", $id);
     return $stmt->execute();
 }
-
-
+public function getCoursesPaginated($limit, $offset) {
+    $query = "SELECT * FROM courses LIMIT ? OFFSET ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $limit, $offset);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+public function getCourseCount() {
+    $query = "SELECT COUNT(*) as total FROM courses";
+    $result = $this->conn->query($query);
+    $row = $result->fetch_assoc();
+    return $row['total'];
+}
 // Fetch all courses
 public function getCourses() {
     $query = "SELECT * FROM courses";
