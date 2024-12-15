@@ -212,6 +212,20 @@ public function deleteStudent($id) {
     return $stmt->execute();
 }
 
+//5. Get total Course Count for Pagination
+public function getCourseCount(){
+    $query = "SELECT COUNT(*) as total FROM courses";
+    $result = $this->conn->query($query);
+    $row = $result->fetch_assoc();
+    return $row['total'];
+
+}
+
+//6. Calculate Total Pages
+public function getTotalPages($limit){
+    $totalCourses = $this->getCourseCount();
+    return ceil($totalCourses / $limit); // Calculate total number of pages
+}
 
    
 

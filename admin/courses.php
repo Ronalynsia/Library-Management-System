@@ -6,6 +6,17 @@ require_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
+//Pagination variables
+$limit = 5; // Records per page
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($current_page - 1) * $limit;
+
+//Get total course count and fetch paginated courses
+$totalCourses = $admin->getCourseCount();
+$totalPages = ceil($totalCourses / $limit);
+$courses = $admin->getCourses($limit, $offset);
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
@@ -65,7 +76,7 @@ $courses_result = $admin->getCourses();
     padding:0;
     padding: 40px;
     color: #333;
-}
+    }
 
 h3 {
     margin-bottom: 5px;
