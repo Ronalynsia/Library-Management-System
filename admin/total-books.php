@@ -80,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/total-books.css">
 </head>
 <body>
+<h2>Book Dashboard</h2>
 <!-- Overlay -->
 <div class="overlay" id="overlay" onclick="hideModal()"></div>
 
@@ -125,9 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="button" onclick="hideModal()">Cancel</button>
     </form>
 </div>
-<h3>Book List</h3>
+
 <!-- Book List -->
 <button onclick="showModal('add-form')">Add New Book</button>
+<h3>Book List</h3>
 <table>
     <thead>
         <tr>
@@ -174,8 +176,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </table>
 <div style="text-align: center; margin-top: 20px;">
     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-        <a href="?page=<?= $i; ?>" style="margin: 0 5px; text-decoration: none; 
-           <?= ($i === $page) ? 'font-weight: bold; color: #805c41;' : 'color: #333;' ?>">
+        <a href="?page=<?= $i; ?>" style="
+            display: inline-block;
+            margin: 0 5px;
+            text-decoration: none;
+            background-color: <?= ($i === $page) ? '#5a3b2e' : '#8b6f5e'; ?>;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: background-color 0.3s;">
             <?= $i; ?>
         </a>
     <?php endfor; ?>
@@ -204,7 +215,7 @@ function showEditForm(id, isbn, title, author, publishedDate, quantity, category
 }
 </script>
 
-<a href="dashboard.php" class="button">Dashboard</a>
+<a href="dashboard.php" class="button">Back to Dashboard</a>
 
 </body>
 </html>

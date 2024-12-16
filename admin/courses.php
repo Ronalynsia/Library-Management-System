@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
     <hr>
    
-    <h3>Existing Courses</h3>
+    <h3> Courses</h3>
     <table>
         <thead>
             <tr>
@@ -190,5 +190,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </script>
 </body>
-<a href="dashboard.php" class="button">Dashboard</a>
+<a href="dashboard.php" class="button">Back to Dashboard</a>
 </html>

@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
     <link rel="stylesheet" href="css/student-list.css">
 </head>
 <body>
-<h3>Student List</h3>
+<h2>Student Dashboard</h2>
 
 <?php if (isset($_SESSION['success'])): ?>
     <p style="color: green;">
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
 <?php endif; ?>
 
 <button onclick="showAddForm()">+ New Student</button>
-
+<h3>Student List</h3>
 <table>
     <thead>
         <tr>
@@ -114,12 +114,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
 </table>
 <div style="text-align: center; margin-top: 20px;">
     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-        <a href="?page=<?php echo $i; ?>" style="margin: 0 5px; text-decoration: none; 
-           <?php echo ($i === $page) ? 'font-weight: bold; color: #805c41;' : 'color: #333;' ?>">
-            <?php echo $i; ?>
+        <a href="?page=<?= $i; ?>" style="
+            display: inline-block;
+            margin: 0 5px;
+            text-decoration: none;
+            background-color: <?= ($i === $page) ? '#5a3b2e' : '#8b6f5e'; ?>;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: background-color 0.3s;">
+            <?= $i; ?>
         </a>
     <?php endfor; ?>
 </div>
+
 
 <div id="add-student-modal" class="modal">
     <form method="POST">
@@ -209,6 +219,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         }
     }
 </script>
-<a href="dashboard.php" class="button">Dashboard</a>
+<a href="dashboard.php" class="button">Back to Dashboard</a>
 </body>
 </html>

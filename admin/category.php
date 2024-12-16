@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     </form>
     <hr>
     
-    <h3>Existing Categories</h3>
+    <h3>Categories</h3>
     <table>
         <thead>
             <tr>
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <?php endif; ?>
     </div>
 
-    <a href="dashboard.php" class="button">Dashboard</a>
+    <a href="dashboard.php" class="button">Back to Dashboard</a>
 
 </body>
 </html>

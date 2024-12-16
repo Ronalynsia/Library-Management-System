@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
     </script>
 </head>
 <body>
-    <h2>Borrow Transactions</h2>
+    <h2>Borrow Dashboard</h2>
     <button onclick="openModal()" class="add-borrow-btn">+ Borrow a Book</button>
     <div id="add-borrow-modal" class="modal">
         <div class="modal-content">
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
     <?php elseif (isset($_SESSION['error'])): ?>
         <p style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
     <?php endif; ?>
-    <h3>Transaction List</h3>
+    <h3>Borrow List</h3>
     <table>
         <thead>
             <tr>
@@ -137,20 +137,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_borrow'])) {
         </tbody>
     </table>
     <div style="text-align: center; margin-top: 20px;">
-        <?php if ($total_pages > 1): ?>
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <a href="?page=<?php echo $i; ?>" 
-                   style="margin: 0 5px; padding: 5px 10px; background: <?php echo $current_page == $i ? '#65452f' : '#805c41'; ?>;
-                    color: #fff; border-radius: 3px; text-decoration: none;">
-                    <?php echo $i; ?>
-                </a>
-            <?php endfor; ?>
-        <?php endif; ?>
-    </div>
+    <?php if ($total_pages > 1): ?>
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="?page=<?php echo $i; ?>" style="
+                display: inline-block;
+                margin: 0 5px;
+                padding: 5px 10px;
+                background: <?php echo $current_page == $i ? '#5a3b2e' : '#8b6f5e'; ?>;
+                color: #fff;
+                border-radius: 5px;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: bold;
+                transition: background-color 0.3s;">
+                <?php echo $i; ?>
+            </a>
+        <?php endfor; ?>
+    <?php endif; ?>
+</div>
+
     
     <form id="delete-form" method="POST" style="display: none;">
         <input type="hidden" name="delete_transaction" value="1">
     </form>
-    <a href="dashboard.php" class="button">Dashboard</a>
+    <a href="dashboard.php" class="button">Back to Dashboard</a>
 </body>
 </html>
