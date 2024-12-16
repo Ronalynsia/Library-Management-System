@@ -6,12 +6,8 @@ require_once 'admin-class.php';
 $db = new Database();
 $admin = new Admin($db);
 
-if (isset($_GET['id'])) {
-    $student = $admin->getStudentById($_GET['id']);
-    echo json_encode($student);
-    exit();
-}
 
+$students = $admin->getAllStudents();
 $courses = $admin->getAllCourses()->fetch_all(MYSQLI_ASSOC);
 
 $limit = 5; 
@@ -152,10 +148,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         <input type="text" id="edit-last-name" name="edit_last_name" required><br>
         <label for="edit-course">Course:</label>
         <select id="edit-course" name="edit_course_id" required>
-            <option value="">Select a course</option>
-            <?php foreach ($courses as $course): ?>
-                <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
-            <?php endforeach; ?>
+    <?php 
+    $courses = $admin->getAllCourses(); // Reset the courses query
+    while ($course = $courses->fetch_assoc()): ?>
+        <option value="<?php echo $course['id']; ?>"><?php echo htmlspecialchars($course['course_name']); ?></option>
+    <?php endwhile; ?>
+</select>
+
         </select><br>
         <button type="submit" name="edit_student">Save Changes</button>
         <button type="button" onclick="hideEditForm()">Cancel</button>
