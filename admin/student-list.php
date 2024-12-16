@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         fetch(`fetch-student.php?id=${studentId}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('edit-id').value = data.id;
+            document.getElementById('edit-id').value = data.student_id;
             document.getElementById('edit-first-name').value = data.first_name;
             document.getElementById('edit-last-name').value = data.last_name;
             document.getElementById('edit-course').value = data.course_id;
