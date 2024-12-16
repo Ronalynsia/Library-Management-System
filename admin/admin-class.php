@@ -305,21 +305,15 @@ public function borrowBook($student_id, $student_name, $isbn, $borrow_date, $sta
     }
 }
 
-// Add a borrow transaction
-public function addBorrowTransaction($student_id, $student_name, $isbn) {
-    // Ensure the data is safe (use prepared statements to prevent SQL injection)
-    $query = "INSERT INTO borrow_transactions (student_id, student_name, isbn, borrow_date, status) 
-              VALUES (?, ?, ?, NOW(), 'Borrowed')";
+public function addBorrowTransaction($student_id, $student_name, $isbn, $quantity) {
+    $query = "INSERT INTO borrow_transactions (student_id, student_name, isbn, quantity, borrow_date, status) 
+              VALUES (?, ?, ?, ?, NOW(), 'Borrowed')";
     $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("sss", $student_id, $student_name, $isbn);
+    $stmt->bind_param("sssi", $student_id, $student_name, $isbn, $quantity);
 
-    // Execute the query and return the result
-    if ($stmt->execute()) {
-        return true;
-    } else {
-        return false;
-    }
+    return $stmt->execute();
 }
+
  // Delete a borrow transaction by ID
  public function deleteTransaction($transaction_id) {
     $stmt = $this->db->prepare("DELETE FROM borrow_transactions WHERE id = ?");
@@ -364,20 +358,14 @@ public function getTransactionCount() {
         $stmt->bind_param("ii", $new_quantity, $book_id);
         return $stmt->execute();
     }
-public function addReturnTransaction($student_id, $student_name, $isbn, $return_date) {
-    $query = "INSERT INTO return_transactions (student_id, student_name, isbn, return_date, status) 
-              VALUES (?, ?, ?, ?, 'returned')";
-    
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("ssss", $student_id, $student_name, $isbn, $return_date); // Bind parameters
-    return $stmt->execute();  // Execute and return true if successful
-     // Execute the query and return the result
-     if ($stmt->execute()) {
-        return true;
-    } else {
-        return false;
+    public function addReturnTransaction($student_id, $student_name, $isbn, $quantity, $return_date) {
+        $query = "INSERT INTO return_transactions (student_id, student_name, isbn, quantity, return_date, status) 
+                  VALUES (?, ?, ?, ?, ?, 'Returned')";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("sssds", $student_id, $student_name, $isbn, $quantity, $return_date);
+        return $stmt->execute();
     }
-}
+    
 // Delete a return transaction
 public function deleteReturnTransaction($transaction_id) {
     $sql = "DELETE FROM return_transactions WHERE id = ?";
