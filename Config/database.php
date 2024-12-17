@@ -22,7 +22,7 @@ class Database {
         } else {
             // Live server connection
             $this->host = 'localhost';
-            $this->db_name = 'yu772084991_library';
+            $this->db_name = 'u772084991_library';
             $this->username = 'u772084991_library';
             $this->password = 'Libmanage2024'; // Fixed the missing closing quote here
         }
