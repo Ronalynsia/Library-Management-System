@@ -168,7 +168,7 @@ function hideModal() {
     document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
 }
 
-function showEditForm(id, firstName, lastName, courseId) {
+function showEditForm(id, first_name, last_name, course_id) {
     document.getElementById('edit_id').value = id;
     document.getElementById('edit_first_name').value = first_name;
     document.getElementById('edit_last_name').value = last_name;
