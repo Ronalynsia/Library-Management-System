@@ -283,9 +283,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_student'])) {
         fetch('student-list.php?id=' + id)
             .then(response => response.json())
             .then(data => {
-                document.getElementById('edit-first-name').value = data.first_name;
-                document.getElementById('edit-last-name').value = data.last_name;
-                document.getElementById('edit-course').value = data.course_id;
+                document.getElementById('edit_first-name').value = data.first_name;
+                document.getElementById('edit_last-name').value = data.last_name;
+                document.getElementById('edit_course').value = data.course_id;
             });
     }
 
