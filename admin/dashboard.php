@@ -18,7 +18,7 @@ $total_students = $admin->getTotalStudents();
 $total_borrowed = $admin->getTotalBorrowed();
 $total_returned = $admin->getTotalReturned();
 
-// Calculate the available books by subtracting borrowed books and adding returned books
+// Calculate the available books
 $available_books = $total_books - $total_borrowed + $total_returned;
 
 ?>
@@ -36,11 +36,11 @@ $available_books = $total_books - $total_borrowed + $total_returned;
         <!-- Sidebar -->
         <aside class="sidebar">
             <!-- Logo Section -->
-    <div class="logo-section">
+            <div class="logo-section">
+                <img src="images/logo.png" alt="Logo">
+            </div>
 
-        <img src="images/logo.png" alt=" Logo">
-    </div>
-         <!-- profile Section -->
+            <!-- Profile Section -->
             <div class="profile-section">
                 <h3>Admin Profile</h3>
                 <?php if (isset($admin_details['username'])): ?>
@@ -64,7 +64,6 @@ $available_books = $total_books - $total_borrowed + $total_returned;
                         </ul>
                     </li>
                     <hr>
-
                     <li class="dropdown-toggle">
                         <a href="javascript:void(0)"><i class="fa fa-book"></i> Books</a>
                         <ul class="dropdown-menu">
@@ -100,7 +99,7 @@ $available_books = $total_books - $total_borrowed + $total_returned;
                     </div>
 
                     <div class="card card-2">
-                        <div class="card-header"><i class="fa fa-users"></i> Total of Students</div>
+                        <div class="card-header"><i class="fa fa-users"></i> Total Students</div>
                         <div class="card-body">
                             <p><strong><?php echo $total_students; ?></strong></p>
                             <a href="student-list.php">see more</a>
@@ -108,7 +107,7 @@ $available_books = $total_books - $total_borrowed + $total_returned;
                     </div>
 
                     <div class="card card-3">
-                        <div class="card-header"><i class="fa fa-bookmark"></i> Total of Borrowed Books</div>
+                        <div class="card-header"><i class="fa fa-bookmark"></i> Total Borrowed Books</div>
                         <div class="card-body">
                             <p><strong><?php echo $total_borrowed; ?></strong></p>
                             <a href="borrow.php">see more</a>
@@ -117,7 +116,7 @@ $available_books = $total_books - $total_borrowed + $total_returned;
 
                     <!-- Total Returned Books Card -->
                     <div class="card card-4">
-                        <div class="card-header"><i class="fa fa-undo"></i> Total of Returned Books</div>
+                        <div class="card-header"><i class="fa fa-undo"></i> Total Returned Books</div>
                         <div class="card-body">
                             <p><strong><?php echo $total_returned; ?></strong></p>
                             <a href="return.php">see more</a>

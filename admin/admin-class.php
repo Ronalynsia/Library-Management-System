@@ -292,18 +292,23 @@ public function getBorrowTransactionsPaginated($limit, $offset) {
     $stmt->execute();
     return $stmt->get_result();
 }
-// Insert a new borrow transaction
-public function borrowBook($student_id, $student_name, $isbn, $borrow_date, $status) {
-    // Prepare SQL query to insert the borrow transaction
-    $stmt = $this->db->prepare("INSERT INTO borrow_transactions (student_id, student_name, isbn, borrow_date, status) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $student_id, $student_name, $isbn, $borrow_date, $status);
+public function borrowBook($isbn, $quantity) {
+    // Update the available quantity of the book
+    $sql = "UPDATE books SET available = available - ? WHERE isbn = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bind_param("is", $quantity, $isbn);
+    $stmt->execute();
 
-    if ($stmt->execute()) {
-        return true;
-    } else {
-        return false;
-    }
+    // Insert the borrowing transaction into the database
+    $sql_transaction = "INSERT INTO borrow_transactions (isbn, quantity) VALUES (?, ?)";
+    $stmt_transaction = $this->db->prepare($sql_transaction);
+    $stmt_transaction->bind_param("si", $isbn, $quantity);
+    $stmt_transaction->execute();
+
+    return $stmt_transaction->affected_rows > 0;
 }
+
+
 
 public function addBorrowTransaction($student_id, $student_name, $isbn, $quantity) {
     $query = "INSERT INTO borrow_transactions (student_id, student_name, isbn, quantity, borrow_date, status) 
@@ -313,6 +318,7 @@ public function addBorrowTransaction($student_id, $student_name, $isbn, $quantit
 
     return $stmt->execute();
 }
+
 
  // Delete a borrow transaction by ID
  public function deleteTransaction($transaction_id) {
@@ -343,21 +349,23 @@ public function getTransactionCount() {
     $result = $this->conn->query($sql);
     return $result->fetch_assoc()['total'];
 }
-    // Return book (increase the quantity)
-    public function returnBook($book_id, $quantity_returned) {
-        // Check current available quantity
-        $stmt = $this->db->prepare("SELECT quantity FROM books WHERE id = ?");
-        $stmt->bind_param("i", $book_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $book = $result->fetch_assoc();
+public function returnBook($isbn, $quantity) {
+    // Update the available quantity of the book
+    $sql = "UPDATE books SET available = available + ? WHERE isbn = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bind_param("is", $quantity, $isbn);
+    $stmt->execute();
 
-        // Increase the quantity in the books table
-        $new_quantity = $book['quantity'] + $quantity_returned;
-        $stmt = $this->db->prepare("UPDATE books SET quantity = ? WHERE id = ?");
-        $stmt->bind_param("ii", $new_quantity, $book_id);
-        return $stmt->execute();
-    }
+    // Insert the return transaction into the database
+    $sql_transaction = "INSERT INTO return_transactions (isbn, quantity) VALUES (?, ?)";
+    $stmt_transaction = $this->db->prepare($sql_transaction);
+    $stmt_transaction->bind_param("si", $isbn, $quantity);
+    $stmt_transaction->execute();
+
+    return $stmt_transaction->affected_rows > 0;
+}
+
+
     public function addReturnTransaction($student_id, $student_name, $isbn, $quantity, $return_date) {
         $query = "INSERT INTO return_transactions (student_id, student_name, isbn, quantity, return_date, status) 
                   VALUES (?, ?, ?, ?, ?, 'Returned')";
@@ -462,12 +470,16 @@ public function getAllReturnTransactions() {
 
     // Fetch statistics (Books, Students, Borrowed, Returned)
     public function getTotalBooks() {
-        $stmt = $this->conn->prepare("SELECT SUM(quantity) AS total_books FROM books");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row['total_books'];
+        // Get the total number of books
+        $sql = "SELECT SUM(quantity) AS total_books FROM books";
+        $result = $this->db->query($sql);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return (int)$row['total_books'];
+        }
+        return 0;
     }
+    
 
     public function getTotalStudents() {
         $stmt = $this->conn->prepare("SELECT COUNT(*) AS total_students FROM students");
@@ -478,21 +490,26 @@ public function getAllReturnTransactions() {
     }
 
     public function getTotalBorrowed() {
-        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total_borrowed FROM borrow_transactions WHERE status = 'Borrowed'");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row['total_borrowed'];
+        $sql = "SELECT SUM(quantity) AS total_borrowed FROM borrow_transactions";
+        $result = $this->db->query($sql);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return (int)$row['total_borrowed'];
+        }
+        return 0; // Return 0 if no borrowed books found
     }
+    
 
     public function getTotalReturned() {
-        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total_returned FROM return_transactions WHERE status = 'Returned'");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row['total_returned'];
+        $sql = "SELECT SUM(quantity) AS total_returned FROM return_transactions";
+        $result = $this->db->query($sql);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return (int)$row['total_returned'];
+        }
+        return 0; // Return 0 if no returned books found
     }
-
+    
 }
 
 ?>
