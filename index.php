@@ -42,7 +42,7 @@ if (isset($_POST['register'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href=""> <!-- Link to external CSS -->
+    <link rel="stylesheet" href=""> 
     <title>Library System - Admin Sign In / Register</title>
     <style>
        body, html {
@@ -54,10 +54,10 @@ if (isset($_POST['register'])) {
         
         .frame {
             height: 100%;
-            background: url('src/css/image/HD-Library-Wallpaper.jpg') no-repeat center center fixed;
+            background: url('src/css/image/index.png') no-repeat center center fixed;
             background-size: cover;
             image-rendering: crisp-edges; 
-            
+            -webkit-optimize-contrast;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -94,7 +94,7 @@ if (isset($_POST['register'])) {
 
         .form-container input, .form-container button {
             width: 100%;
-            padding: 10px 1px;
+            padding: 5px;
             margin: 5px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
